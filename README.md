@@ -13,6 +13,7 @@ app torneos va a crear una compra grupal, me dijo gabo que ya estas mas o menos 
 
 
 Implementaciones futuras:
+<br>
 -Blog/pagina de la tienda
 -apartado de videos (vinculado al usuario, como el udemy)
 -tienda virtual
