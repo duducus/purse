@@ -1,0 +1,12 @@
+<!-- intercambios/templates/intercambios/lista_intercambios.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Mis Intercambios</h1>
+<ul>
+    {% for intercambio in intercambios %}
+    <li>{{ intercambio.fecha }} - {{ intercambio.monto }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'nuevo_intercambio' %}">Nuevo Intercambio</a>
+{% endblock %}

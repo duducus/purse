@@ -1,0 +1,12 @@
+<!-- core/templates/core/products.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2>Productos</h2>
+    {% if user_authenticated %}
+        <p>Información específica para usuarios autenticados.</p>
+        <!-- Añade aquí los detalles que quieres mostrar a los usuarios autenticados -->
+    {% else %}
+        <p>Debes iniciar sesión para ver esta información.</p>
+    {% endif %}
+{% endblock %}

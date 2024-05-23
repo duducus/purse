@@ -1,0 +1,25 @@
+<!-- core/templates/core/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi Aplicación</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                <li><a href="{% url 'products' %}">Productos</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'exit' %}">Salir</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Ingresar</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

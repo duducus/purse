@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %} 
+
+<h3>Inicio</h3>
+
+<hr>
+
+<h4>
+    {% if request.user.is_authenticated %}
+        {{ user.username|upper }}, Bienvenido
+        <br>
+        Saldo: {{ saldo }}
+        <br>
+        Saldo de regalo: {{ saldo_regalo }}
+        <br>
+    {% else %}
+        Bienvenido, visitante
+    {% endif %}
+</h4>
+
+{% endblock %}
