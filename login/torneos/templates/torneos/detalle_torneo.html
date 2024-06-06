@@ -1,0 +1,51 @@
+<!-- detalle_torneo.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Torneo</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="torneos-page">
+    <h2>Detalles del Torneo: {{ torneo.nombre }}</h2>
+    <p>Fecha de inicio: {{ torneo.fecha_inicio }}</p>
+    <h3>Participantes</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>Posición</th>
+                    <th>Entrada</th>
+                    <th>Factor X</th>
+                    <th>%</th>
+                    <th>Premio Calculado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inscripcion in inscripciones %}
+                <tr>
+                    <td>{{ inscripcion.jugador.username }}</td>
+                    <td>{{ inscripcion.posicion }}</td>
+                    <td>{{ inscripcion.entrada }}</td>
+                    <td>{{ inscripcion.factor_x }}</td>
+                    <td>{{ inscripcion.porcentaje }}</td>
+                    <td>{{ inscripcion.premio_calculado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Añadir Inscripción</button>
+        </form>
+        <a href="{% url 'torneo_list'%}">Regresar</a>
+    </div>
+</body>
+</html>
+{% endblock %}

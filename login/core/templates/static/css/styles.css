@@ -1,0 +1,261 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Centra el contenido principal */
+}
+
+h3, h4 {
+    font-size: 30px;
+    text-align: center;
+}
+
+/* Estilos de navegación */
+header {
+    background-color: #f8f8f8;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Alinear los elementos del menú a la derecha */
+}
+
+nav ul li {
+    display: inline-block; /* Mostrar los elementos del menú en línea */
+    margin: 0 10px; /* Espacio entre los elementos del menú */
+}
+
+/* Estilos del contenedor principal */
+.container {
+    display: flex;
+    justify-content: center; /* Centrar el contenedor principal horizontalmente */
+    align-items: flex-start; /* Alinear al inicio verticalmente */
+    padding: 20px; /* Espacio interno del contenedor */
+}
+
+.main-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+}
+
+.sidebar h3 {
+    text-align: center;
+}
+
+.video-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.video-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.video-list img {
+    width: 120px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Estilos de formularios */
+.login-form {
+    width: 300px; /* Ancho del formulario */
+    margin: 0 auto; /* Centrar horizontalmente */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+input[type="text"],
+input[type="password"],
+button[type="submit"] {
+    width: 150px; /* Ancho de los campos de entrada y botón */
+    margin-bottom: 10px; /* Espacio entre los elementos */
+    padding: 10px; /* Espacio interno */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+
+.login-button {
+    background-color: #d281f1; /* Color de fondo */
+    color: red; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cambio de cursor al pasar el ratón */
+}
+
+.login-button:hover {
+    background-color: #45a049; /* Color de fondo al pasar el ratón */
+}
+
+.form-container {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto; /* Centrar horizontalmente */
+}
+
+.add-intercambio-form {
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Estilos de tablas */
+.table-container {
+    display: inline-block; /* Para que el contenedor ocupe solo el ancho necesario */
+    text-align: center;
+    width: 80%; /* Ajusta el ancho del contenedor según sea necesario */
+    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+}
+
+table {
+    margin: 0 auto; /* Alinea la tabla al centro */
+    margin-bottom: 30px;
+}
+
+.intercambios-page table,
+.ventas-page table{
+    width: 100%; /* La tabla ocupará todo el ancho del contenedor */
+    border-collapse: collapse;
+    margin: 0 auto; /* Centrar la tabla horizontalmente */
+}
+
+.torneos-page table {
+    width: 100%; /* La tabla ocupará todo el ancho del contenedor */
+    border-collapse: collapse;
+    margin: 0 auto; /* Centrar la tabla horizontalmente */
+    margin-left: -129px;
+    margin-bottom: 20px;
+}
+.intercambios-page table,
+.ventas-page table,
+.torneos-page table,
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th,
+.intercambios-page td,
+.ventas-page td,
+.torneos-page td {
+    border: 1px solid black;
+}
+
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th,
+.intercambios-page td,
+.ventas-page td,
+.torneos-page td {
+    padding: 8px;
+    text-align: left;
+}
+
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos de botones */
+button:hover {
+    background-color: #05536a;
+}
+
+table td form {
+    display: flex;
+    align-items: center;
+}
+
+table td form .form-control {
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+table td form button {
+    padding: 5px 10px;
+}
+
+/* Estilos específicos para los botones */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.remove-row {
+    background-color: #dc3545;
+    color: white;
+}
+
+.remove-row:hover {
+    background-color: #c82333;
+}
+
+/* Estilos específicos para la página de torneos */
+.torneos-page .btn {
+    margin: 10px;
+}
+
+.torneos-page .btn-primary {
+    background-color: #1100ff;
+}
+
+.torneos-page .btn-secondary {
+    background-color: #1100ff;
+}
+
+.torneos-page .remove-row {
+    background-color: #000000;
+}

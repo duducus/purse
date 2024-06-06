@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Todas las Ventas</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="ventas-page">
+    <h1>Lista de Todas las Ventas</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Precio Total</th>
+                    <th>Fecha</th>
+                    <th>Pago Efectivo</th>
+                    <th>Pago Puntos</th>
+                    <th>Pago Tarjeta</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.usuario.username }}</td>
+                    <td>{{ venta.descripcion }}</td>
+                    <td>{{ venta.cantidad }}</td>
+                    <td>{{ venta.precio_unitario }}</td>
+                    <td>{{ venta.precio_total }}</td>
+                    <td>{{ venta.fecha }}</td>
+                    <td>{{ venta.pago_efectivo }}</td>
+                    <td>{{ venta.pago_puntos }}</td>
+                    <td>{{ venta.pago_tarjeta }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+{% endblock %}

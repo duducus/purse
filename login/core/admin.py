@@ -4,7 +4,7 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ['username', 'email', 'get_saldo', 'saldo_regalo']
+    list_display = ['username', 'email', 'get_saldo', 'saldo_regalo','codigo']
     readonly_fields = ['get_saldo']
 
     def get_saldo(self, obj):

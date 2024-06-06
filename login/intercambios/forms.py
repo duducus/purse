@@ -5,7 +5,7 @@ from .models import Intercambio
 class IntercambioForm(forms.ModelForm):
     class Meta:
         model = Intercambio
-        fields = ['monto']
+        fields = ['usuario', 'monto', 'articulo']
 
     def __init__(self, *args, **kwargs):
         self.usuario = kwargs.pop('usuario', None)

@@ -6,6 +6,7 @@ from django.dispatch import receiver
 class Intercambio(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
+    articulo = models.CharField(max_length=255, default= 'artículo')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

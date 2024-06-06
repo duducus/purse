@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f8f8f8;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Alinear los elementos del menú a la derecha */
+}
+
+nav ul li {
+    display: inline-block; /* Mostrar los elementos del menú en línea */
+    margin: 0 10px; /* Espacio entre los elementos del menú */
+}
+
+main {
+    text-align: center; /* Centrar el contenido del main */
+}
+
+h4 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.login-form {
+    width: 300px; /* Ancho del formulario */
+    margin: 0 auto; /* Centrar horizontalmente */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+input[type="text"],
+input[type="password"],
+button[type="submit"] {
+    width: 80%; /* Ancho de los campos de entrada y botón */
+    margin-bottom: 10px; /* Espacio entre los elementos */
+    padding: 10px; /* Espacio interno */
+    font-size: 16px; /* Tamaño de la fuente */
+}
+
+.login-button {
+    background-color: #d281f1; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cambio de cursor al pasar el ratón */
+}
+
+.login-button:hover {
+    background-color: #45a049; /* Color de fondo al pasar el ratón */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Espaciar los elementos de la barra lateral y el contenido principal */
+    align-items: flex-start; /* Alinear al inicio verticalmente */
+    padding: 200px; /* Espacio interno del contenedor */
+}
+
+.main-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+}
+
+.sidebar h3 {
+    text-align: center;
+}
+
+.video-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.video-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.video-list img {
+    width: 120px;
+    height: auto;
+    margin-right: 10px;
+}
+.container {
+    margin: 0 auto; /* Alinea los contenedores al centro */
+}
+.table-container {
+    display: inline-block; /* Para que el contenedor ocupe solo el ancho necesario */
+    text-align: center;
+    margin-right: 400px; /* Agrega algo de espacio entre las tablas */
+}
+table {
+    margin: 0 auto; /* Alinea la tabla al centro */
+}

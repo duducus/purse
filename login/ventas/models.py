@@ -5,12 +5,16 @@ from django.dispatch import receiver
 from decimal import Decimal
 
 class Venta(models.Model):
+        
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='ventas')
     descripcion = models.CharField(max_length=255)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     precio_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     fecha = models.DateField(auto_now_add=True)
+    pago_efectivo = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+    pago_puntos = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+    pago_tarjeta = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.precio_total = self.precio_unitario * Decimal(self.cantidad) * Decimal(0.03)
