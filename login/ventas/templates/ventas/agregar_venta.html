@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Venta</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="ventas-page">
+    <h1>Añadir Nueva Venta</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="{% url 'lista_todas_ventas' %}">Volver a la lista de ventas</a>
+</body>
+</html>
+{% endblock %}

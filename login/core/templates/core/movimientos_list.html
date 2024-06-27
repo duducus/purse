@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h3>Lista de Movimientos</h3>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Pokémon</th>
+            <th>Yu-Gi-Oh!</th>
+            <th>Magic</th>
+            <th>Concepto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movimiento in movimientos %}
+            <tr>
+                <td>{{ movimiento.user.username }}</td>
+                <td>{{ movimiento.fecha }}</td>
+                <td>{{ movimiento.puntos_pokemon }}</td>
+                <td>{{ movimiento.puntos_yugioh }}</td>
+                <td>{{ movimiento.puntos_magic }}</td>
+                <td>{{ movimiento.concepto }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'manage_points' %}">Regresar</a><br>
+{% endblock %}

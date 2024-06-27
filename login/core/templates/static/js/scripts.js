@@ -1,30 +1,42 @@
-// scripts.js
-
 document.addEventListener("DOMContentLoaded", function() {
-    const videoList = document.querySelector(".video-list");
+    const API_KEY = 'AIzaSyDlwWbkTGdAxtlgoMc6XrMM_rIZ0RSqzbk';
+    const PLAYLIST_ID = 'PLU8fI-5lkaHpWr-pBBrYCYiw_KqZXWpKE';
 
-    // Lista de videos de YouTube (IDs de video)
-    const videos = [
-        {id: 'VIDEO_ID_1', title: 'Video 1'},
-        {id: 'VIDEO_ID_2', title: 'Video 2'},
-        {id: 'VIDEO_ID_3', title: 'Video 3'}
-        // Añade más videos aquí
-    ];
+    async function fetchPlaylistItems() {
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=20&key=${API_KEY}`);
+        const data = await response.json();
+        return data.items;
+    }
 
-    videos.forEach(video => {
-        const listItem = document.createElement("li");
-        const link = document.createElement("a");
-        link.href = `https://www.youtube.com/watch?v=${video.id}`;
-        link.target = "_blank";
+    function createVideoElement(video) {
+        const videoElement = document.createElement('div');
+        videoElement.classList.add('video-item');
+        videoElement.innerHTML = `
+            <a href="https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}" target="_blank">
+                <img src="${video.snippet.thumbnails.default.url}" alt="${video.snippet.title}" class="video-thumbnail">
+            </a>
+            <div class="video-info">
+                <a href="https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}" target="_blank">
+                    <h3 class="video-title">${video.snippet.title}</h3>
+                </a>
+            </div>
+        `;
+        return videoElement;
+    }
 
-        const thumbnail = document.createElement("img");
-        thumbnail.src = `https://img.youtube.com/vi/${video.id}/default.jpg`;
-        //thumbnail.src = `/perro.png`
-        thumbnail.alt = video.title;
+    async function loadPlaylist() {
+        const videos = await fetchPlaylistItems();
+        const videoContainer = document.getElementById('video-container');
+        videoContainer.innerHTML = ''; // Clear previous content
 
-        link.appendChild(thumbnail);
-        link.appendChild(document.createTextNode(video.title));
-        listItem.appendChild(link);
-        videoList.appendChild(listItem);
-    });
+        videos.forEach(video => {
+            const videoElement = createVideoElement(video);
+            videoContainer.appendChild(videoElement);
+        });
+    }
+
+    loadPlaylist();
+
+    // Recarga la lista de reproducción cada 5 minutos
+    setInterval(loadPlaylist, 300000);
 });

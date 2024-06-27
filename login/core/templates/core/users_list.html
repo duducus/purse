@@ -1,0 +1,46 @@
+<!-- core/templates/core/users_list.html -->
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+    <h2>Lista de Usuarios</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Correo electrónico</th>
+                <th>Saldo</th>
+                <th>Saldo regalo</th>
+                <th>Código</th>
+                <th>Puntos Pase PKM</th>
+                <th>Puntos Pase Yu-Gi-Oh</th>
+                <th>Puntos Pase Magic</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.saldo }}</td>
+                <td>{{ usuario.saldo_regalo }}</td>
+                <td>{{ usuario.codigo }}</td>
+                <td>{{ usuario.puntos_pase_pkm }}</td>
+                <td>{{ usuario.puntos_pase_yugioh }}</td>
+                <td>{{ usuario.puntos_pase_magic }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'create_user' %}">Crear usuario nuevo</a><br>
+    <a href="{% url 'manage_points' %}">Administrar Puntos</a><br>
+    <a href="{% url 'dashboard' %}">Regresar al dashboard</a><br>
+</body>
+</html>
+{% endblock %}

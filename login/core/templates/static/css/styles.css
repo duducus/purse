@@ -124,7 +124,7 @@ button[type="submit"] {
 
 .form-group input,
 .form-group select {
-    width: 100%;
+    width: 20%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -138,7 +138,7 @@ button[type="submit"] {
     display: inline-block; /* Para que el contenedor ocupe solo el ancho necesario */
     text-align: center;
     width: 80%; /* Ajusta el ancho del contenedor según sea necesario */
-    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+    margin-right: 35px;
 }
 
 table {
@@ -157,7 +157,6 @@ table {
     width: 100%; /* La tabla ocupará todo el ancho del contenedor */
     border-collapse: collapse;
     margin: 0 auto; /* Centrar la tabla horizontalmente */
-    margin-left: -129px;
     margin-bottom: 20px;
 }
 .intercambios-page table,
@@ -258,4 +257,83 @@ table td form button {
 
 .torneos-page .remove-row {
     background-color: #000000;
+}
+
+.youtube-playlist-container {
+    width: 33%;
+    margin-top: 20px;
+}
+
+.video-container {
+    width: 100%;
+    max-height: 500px;  /* Reducir la altura del contenedor */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video-item {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.video-thumbnail {
+    width: 120px;
+    height: 90px;
+    margin-right: 10px;
+}
+
+.video-info {
+    flex: 1;
+}
+
+.video-title {
+    font-size: 16px;
+    margin: 0;
+    text-decoration: none;
+    color: black;
+}
+
+.video-title:hover {
+    text-decoration: underline;
+}
+
+.battle-pass-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.battle-pass-table th, .battle-pass-table td {
+    width: 50px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #000;
+    padding: 0;
+}
+.battle-pass-table th {
+    white-space: nowrap;
+    height: 50px;
+}
+.battle-pass-table td {
+    font-size: 20px;
+}
+.battle-pass-table .highlight {
+    background-color: yellow;
+}
+.battle-pass-table tbody tr:first-child td:not(.premio), 
+.battle-pass-table tbody tr:last-child td:not(.premio) {
+    writing-mode: vertical-lr;
+    transform: rotate(360deg);
+}
+.battle-pass-table thead th:first-child,
+.battle-pass-table tbody td.premio {
+    writing-mode: horizontal-tb;
+    transform: none;
+    width: 150px;
+    font-weight: bold;
 }
