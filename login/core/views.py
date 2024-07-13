@@ -1,6 +1,6 @@
 # core/views.py
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,  user_passes_test
 from django.contrib.auth import logout
 from torneos.models import InscripcionTorneo
 from intercambios.models import Intercambio
@@ -124,11 +124,12 @@ def exit(request):
     return redirect('home')
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def dashboard(request):
     return render(request, 'core/dashboard.html')
 
-
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -140,11 +141,13 @@ def create_user(request):
     return render(request, 'core/create_user.html', {'form': form})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def users_list(request):
     usuarios = CustomUser.objects.all()
     return render(request, 'core/users_list.html', {'usuarios': usuarios})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def manage_points(request):
     users = CustomUser.objects.all()
     if request.method == 'POST':
@@ -155,9 +158,10 @@ def manage_points(request):
         concepto = request.POST.get('concepto', '')
 
         user = CustomUser.objects.get(id=user_id)
-        user.puntos_pase_pkm += puntos_pokemon
-        user.puntos_pase_yugioh += puntos_yugioh
-        user.puntos_pase_magic += puntos_magic
+
+        user.puntos_pase_pkm = max(user.puntos_pase_pkm + puntos_pokemon, 0)
+        user.puntos_pase_yugioh = max(user.puntos_pase_yugioh + puntos_yugioh, 0)
+        user.puntos_pase_magic = max(user.puntos_pase_magic + puntos_magic, 0)
         user.save()
 
         Movimiento.objects.create(
@@ -173,6 +177,7 @@ def manage_points(request):
     return render(request, 'core/manage_points.html', {'users': users})
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def movimientos_list(request):
     movimientos = Movimiento.objects.all().order_by('-fecha')
     return render(request, 'core/movimientos_list.html', {'movimientos': movimientos})

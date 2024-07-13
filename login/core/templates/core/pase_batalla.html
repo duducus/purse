@@ -4,8 +4,10 @@
 {% block content %}
 <h3>Pase de Batalla</h3>
 <div class="battle-pass">
+    {% if puntos_pase_pkm > 0 %}
     <!-- Tabla para el Pase de Batalla Pokémon -->
     <h4>Pase de Batalla Pokémon</h4>
+    <p>Puntos: {{ puntos_pase_pkm }}</p>
     <table border="1" class="battle-pass-table">
         <thead>
             <tr>
@@ -30,10 +32,12 @@
             </tr>
         </tbody>
     </table>
-
+    {% endif %}
     {% if puntos_pase_yugioh > 0 %}
     <!-- Tabla para el Pase de Batalla Yu-Gi-Oh! -->
     <h4>Pase de Batalla Yu-Gi-Oh!</h4>
+    <p>Puntos: {{ puntos_pase_yugioh }}</p>
+
     <table border="1" class="battle-pass-table">
         <thead>
             <tr>
@@ -61,8 +65,10 @@
     {% endif %}
 
     {% if puntos_pase_magic > 0 %}
+  
     <!-- Tabla para el Pase de Batalla Magic -->
     <h4>Pase de Batalla Magic</h4>
+    <p> Puntos: {{ puntos_pase_magic }}</p>
     <table border="1" class="battle-pass-table">
         <thead>
             <tr>

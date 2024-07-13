@@ -19,6 +19,10 @@ class InscripcionTorneo(models.Model):
         lambda_value = Decimal(0.3)
         total_entradas = Decimal(self.torneo.inscripciones_torneo.aggregate(total_entradas=models.Sum('entrada'))['total_entradas'] or 0)
         total_participantes = Decimal(self.torneo.inscripciones_torneo.count() or 1)
+        
+        if self.posicion is None:
+            return Decimal('0.000000')
+        
         probabilidad = Decimal(math.exp(-lambda_value * self.posicion))
         
         if total_entradas == 0 or total_participantes == 0:

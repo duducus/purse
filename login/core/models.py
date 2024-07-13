@@ -11,6 +11,15 @@ class CustomUser(AbstractUser):
     puntos_pase_pkm = models.IntegerField(default=0)
     puntos_pase_yugioh = models.IntegerField(default=0)
     puntos_pase_magic = models.IntegerField(default=0)
+    
+    def save(self, *args, **kwargs):
+        if self.puntos_pase_pkm < 0:
+            self.puntos_pase_pkm = 0
+        if self.puntos_pase_yugioh < 0:
+            self.puntos_pase_yugioh = 0
+        if self.puntos_pase_magic < 0:
+            self.puntos_pase_magic = 0
+        super().save(*args, **kwargs)
 
 class Movimiento(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

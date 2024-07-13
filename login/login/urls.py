@@ -22,8 +22,7 @@ urlpatterns = [
     path('intercambios/', include('intercambios.urls')),
     path('ventas/', include('ventas.urls')),
     path('torneos/', include('torneos.urls')),
-    path('', include('core.urls')),  # Asumiendo que tienes un archivo urls.py en core
+    path('', include('core.urls')), 
+    path('blog/', include('blog.urls')),
 ]
-
-
 

@@ -18,7 +18,10 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'informacion' %}">Información</a></li>
                     <li><a href="{% url 'pase_batalla' %}">Pase de Batalla</a></li>
-                    <li><a href="{% url 'dashboard' %}"> Dashboard</a></li>
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'post_list' %}"> Blog</a></li>
                     <li><a href="{% url 'exit' %}">Salir</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Ingresar</a></li>

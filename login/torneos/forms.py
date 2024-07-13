@@ -15,7 +15,7 @@ class InscripcionTorneoForm(forms.ModelForm):
         model = InscripcionTorneo
         fields = ['jugador', 'entrada', 'posicion']
         widgets = {
-            'jugador': forms.Select(attrs={'class': 'form-control'}),
-            'entrada': forms.NumberInput(attrs={'class': 'form-control'}),
-            'posicion': forms.NumberInput(attrs={'class': 'form-control'}),
+            'jugador': forms.Select(attrs={'required': True}),
+            'entrada': forms.NumberInput(attrs={'required': True}),
+            'posicion': forms.NumberInput(attrs={'required': True}),
         }

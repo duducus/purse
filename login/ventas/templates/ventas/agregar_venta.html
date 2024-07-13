@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block content %} 
+{% block content %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -8,13 +8,63 @@
     <meta charset="UTF-8">
     <title>Añadir Venta</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantidadInput = document.getElementById('id_cantidad');
+            const precioUnitarioInput = document.getElementById('id_precio_unitario');
+            const pagoEfectivoInput = document.getElementById('id_pago_efectivo');
+            const pagoPuntosInput = document.getElementById('id_pago_puntos');
+            const pagoTarjetaInput = document.getElementById('id_pago_tarjeta');
+            const totalPagarSpan = document.getElementById('total-pagar');
+            const totalRestanteSpan = document.getElementById('total-restante');
+            const guardarButton = document.querySelector('button[type="submit"]');
+
+            function updateTotals() {
+                const cantidad = parseFloat(cantidadInput.value) || 0;
+                const precioUnitario = parseFloat(precioUnitarioInput.value) || 0;
+                const totalPagar = cantidad * precioUnitario;
+                totalPagarSpan.textContent = totalPagar.toFixed(2);
+
+                const pagoEfectivo = parseFloat(pagoEfectivoInput.value) || 0;
+                const pagoPuntos = parseFloat(pagoPuntosInput.value) || 0;
+                const pagoTarjeta = parseFloat(pagoTarjetaInput.value) || 0;
+                const totalPagado = pagoEfectivo + pagoPuntos + pagoTarjeta;
+                const totalRestante = totalPagar - totalPagado;
+                totalRestanteSpan.textContent = totalRestante.toFixed(2);
+
+                if (totalRestante === 0) {
+                    guardarButton.disabled = false;
+                } else {
+                    guardarButton.disabled = true;
+                }
+
+                if (totalRestante < 0) {
+                    totalRestanteSpan.style.color = 'red';
+                    totalRestanteSpan.textContent = 'Exceso de pago';
+                    guardarButton.disabled = true;
+                } else {
+                    totalRestanteSpan.style.color = '';
+                }
+            }
+
+            cantidadInput.addEventListener('input', updateTotals);
+            precioUnitarioInput.addEventListener('input', updateTotals);
+            pagoEfectivoInput.addEventListener('input', updateTotals);
+            pagoPuntosInput.addEventListener('input', updateTotals);
+            pagoTarjetaInput.addEventListener('input', updateTotals);
+
+            updateTotals();
+        });
+    </script>
 </head>
 <body class="ventas-page">
     <h1>Añadir Nueva Venta</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Guardar</button>
+        <p>Total a pagar: <span id="total-pagar">0.00</span></p>
+        <p>Total restante: <span id="total-restante">0.00</span></p>
+        <button type="submit" disabled>Guardar</button>
     </form>
     <a href="{% url 'lista_todas_ventas' %}">Volver a la lista de ventas</a>
 </body>

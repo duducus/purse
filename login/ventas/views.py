@@ -7,13 +7,13 @@ from .forms import VentaForm
  #   return user.is_staff
 
 @login_required
-#@user_passes_test(es_staff)
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def lista_todas_ventas(request):
     ventas = Venta.objects.all()
     return render(request, 'ventas/lista_todas_ventas.html', {'ventas': ventas})
 
 @login_required
-#@user_passes_test(lambda user: user.is_staff)
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def agregar_venta(request):
     if request.method == 'POST':
         form = VentaForm(request.POST)

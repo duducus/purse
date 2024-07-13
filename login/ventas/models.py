@@ -5,20 +5,26 @@ from django.dispatch import receiver
 from decimal import Decimal
 
 class Venta(models.Model):
-        
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='ventas')
     descripcion = models.CharField(max_length=255)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     precio_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     fecha = models.DateField(auto_now_add=True)
-    pago_efectivo = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
-    pago_puntos = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
-    pago_tarjeta = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+    pago_efectivo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    pago_puntos = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    pago_tarjeta = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.precio_total = self.precio_unitario * Decimal(self.cantidad) * Decimal(0.03)
+        self.precio_total = self.precio_unitario * Decimal(self.cantidad)
         super().save(*args, **kwargs)
+
+    def total_pagado(self):
+        total = (self.pago_efectivo or 0) + (self.pago_puntos or 0) + (self.pago_tarjeta or 0)
+        return total
+
+    def pago_correcto(self):
+        return self.total_pagado() == self.precio_total
 
     def __str__(self):
         return f"{self.descripcion} - {self.cantidad} - {self.fecha}"

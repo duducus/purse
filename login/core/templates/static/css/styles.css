@@ -9,6 +9,7 @@ body {
 h3, h4 {
     font-size: 30px;
     text-align: center;
+    margin: 10px;
 }
 
 /* Estilos de navegación */
@@ -124,13 +125,17 @@ button[type="submit"] {
 
 .form-group input,
 .form-group select {
-    width: 20%;
+    width: 80%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #e2e2e2;
     color: #000000;
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+.form-control-puntos{
+    width:20% !important; 
+    z-index: 999;
 }
 
 /* Estilos de tablas */
@@ -154,9 +159,9 @@ table {
 }
 
 .torneos-page table {
-    width: 100%; /* La tabla ocupará todo el ancho del contenedor */
+    width: 100%;
     border-collapse: collapse;
-    margin: 0 auto; /* Centrar la tabla horizontalmente */
+    margin-left: -60px;
     margin-bottom: 20px;
 }
 .intercambios-page table,
@@ -336,4 +341,19 @@ table td form button {
     transform: none;
     width: 150px;
     font-weight: bold;
+}
+
+.card {
+    box-shadow: 0 47px 127px #E3E7EB;
+    margin-left: -600px;
+    text-align: left;
+    padding: 24px;
+    width: 1200px;
+}
+
+.card_detail {
+    box-shadow: 0 47px 127px #E3E7EB;
+    text-align: left;
+    padding: 24px;
+    width: 1800px;
 }

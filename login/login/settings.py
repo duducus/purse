@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'intercambios',
     'ventas',
     'torneos',
+    'blog'
 ]
 
 MIDDLEWARE = [

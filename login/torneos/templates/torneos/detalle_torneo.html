@@ -39,6 +39,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        
+        <p>Ganancias del Torneo: {{ ganancias_torneos }}</p>  <!-- Mostrar ganancias_torneos -->
+
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
