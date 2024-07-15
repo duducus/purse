@@ -7,6 +7,11 @@ from intercambios.models import Intercambio
 from django.db.models import Sum
 from .models import CustomUser, Movimiento
 from .forms import CustomUserCreationForm
+import qrcode
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+
+
 @login_required
 def home(request):
     saldo = request.user.saldo if request.user.is_authenticated else 0
@@ -145,6 +150,14 @@ def create_user(request):
 def users_list(request):
     usuarios = CustomUser.objects.all()
     return render(request, 'core/users_list.html', {'usuarios': usuarios})
+
+def generate_qr(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    saldo_info = f"Usuario: {user.username}\nSaldo: {user.saldo}"
+    qr = qrcode.make(saldo_info)
+    response = HttpResponse(content_type="image/png")
+    qr.save(response, "PNG")
+    return response
 
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
