@@ -1,16 +1,16 @@
 # core/views.py
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required,  user_passes_test
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import logout
 from torneos.models import InscripcionTorneo
 from intercambios.models import Intercambio
 from django.db.models import Sum
 from .models import CustomUser, Movimiento
 from .forms import CustomUserCreationForm
-import qrcode
+from barcode import Code128
+from barcode.writer import ImageWriter
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-
+import io
 
 @login_required
 def home(request):
@@ -151,12 +151,16 @@ def users_list(request):
     usuarios = CustomUser.objects.all()
     return render(request, 'core/users_list.html', {'usuarios': usuarios})
 
-def generate_qr(request, user_id):
+def generate_barcode(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    saldo_info = f"Usuario: {user.username}\nSaldo: {user.saldo}"
-    qr = qrcode.make(saldo_info)
-    response = HttpResponse(content_type="image/png")
-    qr.save(response, "PNG")
+    barcode_number = user.codigo
+    barcode = Code128(barcode_number, writer=ImageWriter())
+    
+    buffer = io.BytesIO()
+    barcode.write(buffer)
+    buffer.seek(0)
+
+    response = HttpResponse(buffer, content_type="image/png")
     return response
 
 @login_required

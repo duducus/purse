@@ -14,6 +14,6 @@ urlpatterns = [
     path('informacion/', views.informacion, name='informacion'),
     path('pase-batalla/', views.pase_batalla, name='pase_batalla'),
     path('manage_points/', views.manage_points, name='manage_points'),
-    path('movimientos_list/', views.movimientos_list, name='movimientos_list'),  # Añadir esta línea
-    path('generate_qr/<int:user_id>/', views.generate_qr, name='generate_qr')
+    path('movimientos_list/', views.movimientos_list, name='movimientos_list'), 
+    path('generate_barcode/<int:user_id>/', views.generate_barcode, name='generate_barcode')
 ]

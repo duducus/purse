@@ -20,7 +20,7 @@
                 <th>Puntos Pase PKM</th>
                 <th>Puntos Pase Yu-Gi-Oh</th>
                 <th>Puntos Pase Magic</th>
-                <th>QR</th>
+                <th>Código de Barras</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@
                 <td>{{ usuario.puntos_pase_pkm }}</td>
                 <td>{{ usuario.puntos_pase_yugioh }}</td>
                 <td>{{ usuario.puntos_pase_magic }}</td>
-                <td><button onclick="showQR('{{ usuario.id }}')">Ver QR</button></td>
+                <td><button onclick="showBarcode('{{ usuario.id }}')">Ver Código de Barras</button></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -44,23 +44,23 @@
     <a href="{% url 'dashboard' %}">Regresar al dashboard</a><br>
 
     <!-- Pop-up Modal -->
-    <div id="qrModal">
-        <div id="qrContent">
-            <span id="closeBtn" onclick="closeQR()">&times;</span>
-            <img id="qrImage" src="" alt="QR Code">
+    <div id="barcodeModal">
+        <div id="barcodeContent">
+            <span id="closeBtn" onclick="closeBarcode()">&times;</span>
+            <img id="barcodeImage" src="" alt="Código de Barras">
         </div>
     </div>
 
     <script>
-        function showQR(userId) {
-            var modal = document.getElementById("qrModal");
-            var qrImage = document.getElementById("qrImage");
-            qrImage.src = "{% url 'generate_qr' 0 %}".replace(0, userId);
+        function showBarcode(userId) {
+            var modal = document.getElementById("barcodeModal");
+            var barcodeImage = document.getElementById("barcodeImage");
+            barcodeImage.src = "{% url 'generate_barcode' 0 %}".replace(0, userId);
             modal.style.display = "flex";
         }
 
-        function closeQR() {
-            var modal = document.getElementById("qrModal");
+        function closeBarcode() {
+            var modal = document.getElementById("barcodeModal");
             modal.style.display = "none";
         }
     </script>
