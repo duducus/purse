@@ -6,13 +6,13 @@ class VentaForm(forms.ModelForm):
         model = Venta
         fields = ['usuario', 'descripcion', 'cantidad', 'precio_unitario', 'pago_efectivo', 'pago_puntos', 'pago_tarjeta']
         widgets = {
-            'usuario': forms.Select(attrs={'class': 'form-control'}),
-            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
-            'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
-            'precio_unitario': forms.NumberInput(attrs={'class': 'form-control'}),
-            'pago_efectivo': forms.NumberInput(attrs={'class': 'form-control'}),
-            'pago_puntos': forms.NumberInput(attrs={'class': 'form-control'}),
-            'pago_tarjeta': forms.NumberInput(attrs={'class': 'form-control'}),
+            'usuario': forms.Select(attrs={}),
+            'descripcion': forms.TextInput(attrs={}),
+            'cantidad': forms.NumberInput(attrs={}),
+            'precio_unitario': forms.NumberInput(attrs={}),
+            'pago_efectivo': forms.NumberInput(attrs={'value': 0}),
+            'pago_puntos': forms.NumberInput(attrs={'value': 0}),
+            'pago_tarjeta': forms.NumberInput(attrs={'value': 0}),
         }
 
     def clean(self):

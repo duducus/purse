@@ -1,20 +1,18 @@
-<!-- core/templates/core/create_user.html -->
 {% extends 'core/base.html' %}
 {% load static %}
+
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Añadir usuario nuevo</title>
-</head>
-<body>
-    <h2>Añadir usuario nuevo</h2>
+<div class="form-container">
+    <h2 class="text-center mb-4">Añadir Usuario Nuevo</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Crear</button>
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Volver al Dashboard</a>
+        </div>
     </form>
-    <a href="{% url 'dashboard' %}">Dashboard</a>
-</body>
-</html>
+</div>
 {% endblock %}

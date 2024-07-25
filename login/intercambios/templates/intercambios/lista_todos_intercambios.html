@@ -1,19 +1,11 @@
 {% extends 'core/base.html' %}
 
-{% block content %} 
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Todos los Intercambios</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body class="intercambios-page">
-    <h1>Lista de Todos los Intercambios</h1>
-    <div class="table-container">
-        <table>
-            <thead>
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Lista de Todos los Intercambios</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
                 <tr>
                     <th>Monto</th>
                     <th>Usuario</th>
@@ -30,8 +22,8 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{% url 'nuevo_intercambio'%}">Nuevo intercambio</a>
     </div>
-</body>
-</html>
+    <a href="{% url 'nuevo_intercambio' %}" class="btn btn-primary mt-3">Nuevo Intercambio</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
+</div>
 {% endblock %}

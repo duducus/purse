@@ -2,51 +2,62 @@
 {% load static custom_filters %}
 
 {% block content %}
-<h3>Información</h3>
-<hr>
-<div class="container">
-    <div class="main-content">
-        <div class="table-container">
-            <h2>Torneos</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Nombre de Torneo</th>
-                        <th>Entrada</th>
-                        <th>Premio</th>
-                        <th>Posición</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for torneo in torneos_usuario %}
-                        <tr>
-                            <td>{{ torneo.nombre }}</td>
-                            <td>{{ torneo.entrada }}</td>
-                            <td>{{ torneo.premio }}</td>
-                            <td>{{ torneo.posicion }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <h3>Información</h3>
         </div>
-        <div class="table-container">
-            <h2>Intercambios</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Artículo</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for intercambio in intercambios_usuario %}
+    </div>
+    <hr>
+    <div class="row">
+        <!-- Tabla de Torneos -->
+        <div class="col-12 col-md-6">
+            <div class="table-responsive">
+                <h2>Torneos</h2>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>{{ intercambio.articulo }}</td>
-                            <td>{{ intercambio.monto }}</td>
+                            <th>Nombre de Torneo</th>
+                            <th>Entrada</th>
+                            <th>Premio</th>
+                            <th>Posición</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for torneo in torneos_usuario %}
+                            <tr>
+                                <td>{{ torneo.nombre }}</td>
+                                <td>{{ torneo.entrada }}</td>
+                                <td>{{ torneo.premio }}</td>
+                                <td>{{ torneo.posicion }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tabla de Intercambios -->
+        <div class="col-12 col-md-6">
+            <div class="table-responsive">
+                <h2>Intercambios</h2>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Artículo</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for intercambio in intercambios_usuario %}
+                            <tr>
+                                <td>{{ intercambio.articulo }}</td>
+                                <td>{{ intercambio.monto }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

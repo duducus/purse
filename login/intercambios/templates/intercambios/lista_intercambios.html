@@ -1,12 +1,15 @@
-<!-- intercambios/templates/intercambios/lista_intercambios.html -->
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Mis Intercambios</h1>
-<ul>
-    {% for intercambio in intercambios %}
-    <li>{{ intercambio.fecha }} - {{ intercambio.monto }}</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'nuevo_intercambio' %}">Nuevo Intercambio</a>
+<div class="container-fluid">
+    <h1 class="mb-4">Mis Intercambios</h1>
+    <ul class="list-group mb-4">
+        {% for intercambio in intercambios %}
+        <li class="list-group-item">
+            {{ intercambio.fecha }} - {{ intercambio.monto }}
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'nuevo_intercambio' %}" class="btn btn-primary">Nuevo Intercambio</a>
+</div>
 {% endblock %}

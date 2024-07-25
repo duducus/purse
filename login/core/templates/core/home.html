@@ -3,33 +3,37 @@
 
 {% block content %} 
 
-<h3>Inicio</h3>
-<hr>
-<div class="container">
-    <div class="main-content">
-        <!-- Aquí va el contenido principal de tu página -->
-        <h4>
-            {% if request.user.is_authenticated %}
-                {{ user.username|upper }}, Bienvenido
-                <br>
-                Saldo: {{ saldo }}
-                <br>
-                Saldo de regalo: {{ saldo_regalo }}
-                <br>
-                Puntos pase pokémon: {{ puntos_pase_pkm }}
-                <br>
-                Puntos pase Yu-Gi-Oh: {{ puntos_pase_yugioh }}
-                <br>
-                Puntos pase Magic: {{ puntos_pase_magic }}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Columna para el contenido principal -->
+        <div class="col-md-6 mb-4">
+            <h3>Inicio</h3>
+            <hr>
+            <h4>
+                {% if request.user.is_authenticated %}
+                    {{ user.username|upper }}, Bienvenido
+                    <br>
+                    Saldo: {{ saldo }}
+                    <br>
+                    Saldo de regalo: {{ saldo_regalo }}
+                    <br>
+                    Puntos pase pokémon: {{ puntos_pase_pkm }}
+                    <br>
+                    Puntos pase Yu-Gi-Oh: {{ puntos_pase_yugioh }}
+                    <br>
+                    Puntos pase Magic: {{ puntos_pase_magic }}
 
-            {% else %}
-                Bienvenido, visitante
-            {% endif %}
-        </h4>
-    </div>
-    <div class="youtube-playlist-container">
-        <h1>Mi Lista de Reproducción de YouTube</h1>
-        <div id="video-container" class="video-container"></div>
+                {% else %}
+                    Bienvenido, visitante
+                {% endif %}
+            </h4>
+        </div>
+
+        <!-- Columna para la lista de YouTube -->
+        <div class="col-md-6 mb-4 ">
+            <h1 class="mb-4">Mi Lista de Reproducción de YouTube</h1>
+            <div id="video-container" class="video-container text start"></div>
+        </div>
     </div>
 </div>
 

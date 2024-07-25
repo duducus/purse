@@ -6,31 +6,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Aplicación</title>
-    <link rel="stylesheet" type= "text/css" href="{% static 'css/styles.css'%}">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Inicio</a></li>
-                <li><a href="{% url 'products' %}">Productos</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'informacion' %}">Información</a></li>
-                    <li><a href="{% url 'pase_batalla' %}">Pase de Batalla</a></li>
-                    {% if user.is_staff %}
-                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Productos</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'informacion' %}">Información</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'pase_batalla' %}">Pase de Batalla</a></li>
+                        {% if user.is_staff %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'exit' %}">Salir</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Ingresar</a></li>
                     {% endif %}
-                    <li><a href="{% url 'post_list' %}"> Blog</a></li>
-                    <li><a href="{% url 'exit' %}">Salir</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Ingresar</a></li>
-                {% endif %}
-            </ul>
+                </ul>
+            </div>
         </nav>
     </header>
-    <main>
+    <main class="container mt-4">
         {% block content %}{% endblock %}
     </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

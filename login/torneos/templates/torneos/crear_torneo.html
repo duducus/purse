@@ -1,110 +1,107 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Torneo</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body class="torneos-page">
-    <h2>Crear Nuevo Torneo</h2>
-    <div class="form-container">
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ torneo_form.as_p }}
-                {% if torneo_form.errors %}
-                    <div class="error">
-                        {% for field in torneo_form %}
-                            {% for error in field.errors %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
+<div class="container-fluids">
+    <h2 class="mb-4">Crear Nuevo Torneo</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ torneo_form.as_p }}
+            {% if torneo_form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in torneo_form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
                         {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <h3>Añadir Participantes</h3>
-            <table id="inscripciones-table">
-                <thead>
-                    <tr>
-                        <th>Jugador</th>
-                        <th>Entrada</th>
-                        <th>Posición</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{ inscripcion_formset.management_form }}
-                    {% for form in inscripcion_formset %}
-                        <tr class="form-row">
-                            <td>{{ form.jugador }}</td>
-                            <td>{{ form.entrada }}</td>
-                            <td>{{ form.posicion }}</td>
-                            <td><button type="button" class="btn btn-secondary remove-row">Eliminar</button></td>
-                        </tr>
                     {% endfor %}
-                    {% if inscripcion_formset.non_form_errors %}
-                        <div class="error">
-                            {% for error in inscripcion_formset.non_form_errors %}
-                                <p>{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </tbody>
-            </table>
-            <button type="button" id="add-row" class="btn btn-secondary">Añadir Jugador</button>
-            <button type="submit" class="btn btn-primary">Crear Torneo</button>
-            <a href="{% url 'torneo_list'%}">Regresar</a>
-        </form>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const addRowButton = document.getElementById('add-row');
-            const tableBody = document.querySelector('#inscripciones-table tbody');
-            const emptyRow = document.querySelector('.form-row').cloneNode(true);
-            emptyRow.querySelectorAll('input').forEach(input => input.value = '');
-            let formIndex = tableBody.children.length;
-    
-            addRowButton.addEventListener('click', function() {
-                const newRow = emptyRow.cloneNode(true);
-                newRow.querySelectorAll('input, select').forEach((input) => {
-                    const name = input.name.replace(/-\d+-/, `-${formIndex}-`);
-                    const id = input.id.replace(/-\d+-/, `-${formIndex}-`);
-                    input.name = name;
-                    input.id = id;
-                    input.value = ''; // Limpiar el valor del campo de entrada
-                });
-                tableBody.appendChild(newRow);
-                formIndex++;
+                </div>
+            {% endif %}
+        </div>
+
+        <h3 class="mb-4">Añadir Participantes</h3>
+        <table class="table table-bordered table-striped" id="inscripciones-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Jugador</th>
+                    <th>Entrada</th>
+                    <th>Posición</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ inscripcion_formset.management_form }}
+                {% for form in inscripcion_formset %}
+                    <tr class="form-row">
+                        <td class="align-middle">{{ form.jugador }}</td>
+                        <td class="align-middle">{{ form.entrada }}</td>
+                        <td class="align-middle">{{ form.posicion }}</td>
+                        <td class="align-middle">
+                            <button type="button" class="btn btn-secondary remove-row">Eliminar</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if inscripcion_formset.non_form_errors %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="alert alert-danger">
+                                {% for error in inscripcion_formset.non_form_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <button type="button" id="add-row" class="btn btn-secondary mb-3">Añadir Jugador</button>
+        <button type="submit" class="btn btn-primary">Crear Torneo</button>
+        <a href="{% url 'torneo_list' %}" class="btn btn-link">Regresar</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addRowButton = document.getElementById('add-row');
+        const tableBody = document.querySelector('#inscripciones-table tbody');
+        const emptyRow = document.querySelector('.form-row').cloneNode(true);
+        emptyRow.querySelectorAll('input').forEach(input => input.value = '');
+        let formIndex = tableBody.children.length;
+
+        addRowButton.addEventListener('click', function() {
+            const newRow = emptyRow.cloneNode(true);
+            newRow.querySelectorAll('input, select').forEach((input) => {
+                const name = input.name.replace(/-\d+-/, `-${formIndex}-`);
+                const id = input.id.replace(/-\d+-/, `-${formIndex}-`);
+                input.name = name;
+                input.id = id;
+                input.value = ''; // Limpiar el valor del campo de entrada
+            });
+            tableBody.appendChild(newRow);
+            formIndex++;
+            updateManagementForm();
+        });
+
+        tableBody.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-row')) {
+                const row = event.target.closest('tr');
+                row.remove();
                 updateManagementForm();
-            });
-    
-            tableBody.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-row')) {
-                    const row = event.target.closest('tr');
-                    row.remove();
-                    updateManagementForm();
-                }
-            });
-    
-            function updateManagementForm() {
-                const totalForms = document.querySelectorAll('.form-row').length;
-                document.querySelector('#id_form-TOTAL_FORMS').value = totalForms;
-                // Actualizar los índices de los formularios restantes
-                document.querySelectorAll('.form-row').forEach((row, index) => {
-                    row.querySelectorAll('input, select').forEach((input) => {
-                        const name = input.name.replace(/-\d+-/, `-${index}-`);
-                        const id = input.id.replace(/-\d+-/, `-${index}-`);
-                        input.name = name;
-                        input.id = id;
-                    });
-                });
             }
         });
-    </script>    
-</body>
-</html>
+
+        function updateManagementForm() {
+            const totalForms = document.querySelectorAll('.form-row').length;
+            document.querySelector('#id_form-TOTAL_FORMS').value = totalForms;
+            // Actualizar los índices de los formularios restantes
+            document.querySelectorAll('.form-row').forEach((row, index) => {
+                row.querySelectorAll('input, select').forEach((input) => {
+                    const name = input.name.replace(/-\d+-/, `-${index}-`);
+                    const id = input.id.replace(/-\d+-/, `-${index}-`);
+                    input.name = name;
+                    input.id = id;
+                });
+            });
+        }
+    });
+</script>
 {% endblock %}

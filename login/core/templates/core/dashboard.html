@@ -1,22 +1,15 @@
 {% extends 'core/base.html' %}
 {% load static %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body class="dashboard-page">
-    <h1>Dashboard</h1>
-    <ul>
-        <a href="{% url 'lista_todos_intercambios' %}">Intercambios</a><br>
-        <a href="{% url 'torneo_list' %}">Torneos</a><br>
-        <a href="{% url 'lista_todas_ventas' %}">Ventas</a><br>
-        <a href="{% url 'users_list' %}">Usuarios</a><br>
-        <a href="{% url 'post_list' %}">Blog</a><br>
+<div class="container-fluid">
+    <h1 class="mb-4">Dashboard</h1>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="{% url 'lista_todos_intercambios' %}" class="btn btn-link">Intercambios</a></li>
+        <li class="list-group-item"><a href="{% url 'torneo_list' %}" class="btn btn-link">Torneos</a></li>
+        <li class="list-group-item"><a href="{% url 'lista_todas_ventas' %}" class="btn btn-link">Ventas</a></li>
+        <li class="list-group-item"><a href="{% url 'users_list' %}" class="btn btn-link">Usuarios</a></li>
+        <li class="list-group-item"><a href="{% url 'post_list' %}" class="btn btn-link">Blog</a></li>
     </ul>
-</body>
-</html>
+</div>
 {% endblock %}

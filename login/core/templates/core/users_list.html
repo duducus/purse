@@ -1,55 +1,64 @@
-<!-- core/templates/core/users_list.html -->
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Lista de Usuarios</title>
+    <!-- Incluye el CSS de Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h2>Lista de Usuarios</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre de usuario</th>
-                <th>Correo electrónico</th>
-                <th>Saldo</th>
-                <th>Saldo regalo</th>
-                <th>Código</th>
-                <th>Puntos Pase PKM</th>
-                <th>Puntos Pase Yu-Gi-Oh</th>
-                <th>Puntos Pase Magic</th>
-                <th>Código de Barras</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario.username }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.saldo }}</td>
-                <td>{{ usuario.saldo_regalo }}</td>
-                <td>{{ usuario.codigo }}</td>
-                <td>{{ usuario.puntos_pase_pkm }}</td>
-                <td>{{ usuario.puntos_pase_yugioh }}</td>
-                <td>{{ usuario.puntos_pase_magic }}</td>
-                <td><button onclick="showBarcode('{{ usuario.id }}')">Ver Código de Barras</button></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'create_user' %}">Crear usuario nuevo</a><br>
-    <a href="{% url 'manage_points' %}">Administrar Puntos</a><br>
-    <a href="{% url 'dashboard' %}">Regresar al dashboard</a><br>
+    <div class="container-fluid">
+        <h2 class="mb-4">Lista de Usuarios</h2>
+        <table class="table table-bordered">
+            <thead  class="thead-dark">
+                <tr>
+                    <th>Nombre de usuario</th>
+                    <th>Correo electrónico</th>
+                    <th>Saldo regalo</th>
+                    <th>Código</th>
+                    <th>Puntos Pase PKM</th>
+                    <th>Puntos Pase Yu-Gi-Oh</th>
+                    <th>Puntos Pase Magic</th>
+                    <th>Código de Barras</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.saldo_regalo }}</td>
+                    <td>{{ usuario.codigo }}</td>
+                    <td>{{ usuario.puntos_pase_pkm }}</td>
+                    <td>{{ usuario.puntos_pase_yugioh }}</td>
+                    <td>{{ usuario.puntos_pase_magic }}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Ver Código de Barras</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
+        <a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
+    </div>
 
     <!-- Pop-up Modal -->
-    <div id="barcodeModal">
-        <div id="barcodeContent">
-            <span id="closeBtn" onclick="closeBarcode()">&times;</span>
+    <div id="barcodeModal" class="modal">
+        <div id="barcodeContent" class="modal-content">
+            <span id="closeBtn" class="close-btn">&times;</span>
             <img id="barcodeImage" src="" alt="Código de Barras">
         </div>
     </div>
+
+    <!-- Incluye los scripts de Bootstrap y jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
     <script>
         function showBarcode(userId) {
@@ -63,6 +72,16 @@
             var modal = document.getElementById("barcodeModal");
             modal.style.display = "none";
         }
+
+        // Añadir eventos para cerrar el modal cuando se hace clic fuera del contenido
+        window.onclick = function(event) {
+            var modal = document.getElementById("barcodeModal");
+            if (event.target == modal) {
+                closeBarcode();
+            }
+        }
+
+        document.getElementById("closeBtn").addEventListener("click", closeBarcode);
     </script>
 </body>
 </html>
