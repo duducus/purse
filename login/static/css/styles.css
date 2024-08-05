@@ -80,15 +80,6 @@ nav ul li {
     border-radius: 10px; /* Borde redondeado */
 }
 
-input[type="text"],
-input[type="password"],
-button[type="submit"] {
-    width: 150px; /* Ancho de los campos de entrada y botón */
-    margin-bottom: 10px; /* Espacio entre los elementos */
-    padding: 10px; /* Espacio interno */
-    font-size: 16px; /* Tamaño de la fuente */
-}
-
 .login-button {
     background-color: #d281f1; /* Color de fondo */
     color: red; /* Color del texto */
@@ -114,18 +105,14 @@ button[type="submit"] {
     border: 1px solid #ffffff;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
+label {
     display: block;
     margin-bottom: 5px;
 }
 
-.form-group input,
-.form-group select {
-    width: 80%;
+input,select{
+    width: 60% !important;
+    display: inline !important;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -133,6 +120,18 @@ button[type="submit"] {
     color: #000000;
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
 .form-control-puntos{
     width:20% !important; 
     z-index: 999;
@@ -185,7 +184,7 @@ table {
     padding: 8px;
     text-align: left;
 }
-
+ 
 .intercambios-page th,
 .ventas-page th,
 .torneos-page th {
@@ -209,15 +208,6 @@ table td form .form-control {
 
 table td form button {
     padding: 5px 10px;
-}
-
-/* Estilos específicos para los botones */
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
 }
 
 .btn-primary {
@@ -308,41 +298,6 @@ table td form button {
     text-decoration: underline;
 }
 
-.battle-pass-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.battle-pass-table th, .battle-pass-table td {
-    width: 50px;
-    height: 200px;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #000;
-    padding: 0;
-}
-.battle-pass-table th {
-    white-space: nowrap;
-    height: 50px;
-}
-.battle-pass-table td {
-    font-size: 20px;
-}
-.battle-pass-table .highlight {
-    background-color: yellow;
-}
-.battle-pass-table tbody tr:first-child td:not(.premio), 
-.battle-pass-table tbody tr:last-child td:not(.premio) {
-    writing-mode: vertical-lr;
-    transform: rotate(360deg);
-}
-.battle-pass-table thead th:first-child,
-.battle-pass-table tbody td.premio {
-    writing-mode: horizontal-tb;
-    transform: none;
-    width: 150px;
-    font-weight: bold;
-}
-
 .card {
     box-shadow: 0 47px 127px #E3E7EB;
     margin-left: -600px;
@@ -397,4 +352,87 @@ table td form button {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.battle-pass-table th,
+.battle-pass-table td {
+    text-align: center;
+    vertical-align: middle;
+    width: 20px; /* Ancho fijo para todas las columnas */
+}
+
+.battle-pass-table .highlight {
+    background-color: #ffdd57 !important; /* Color de resaltado */
+    font-weight: bold !important;
+    color: black !important; /* Asegúrate de que el texto sea legible sobre el fondo */
+}
+
+.battle-pass-table td {
+    writing-mode: vertical-rl; /* Rotar el texto de los encabezados */
+    transform: rotate(180deg); /* Ajustar la rotación para que sea legible */
+    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+    text-align: center; /* Asegurar que el texto esté centrado */
+}
+
+.battle-pass-table .premio {
+    width: auto; /* Permitir que la primera columna tenga ancho automático */
+    transform: rotate(0deg);
+    writing-mode: horizontal-tb;
+    white-space: break-spaces;
+}
+
+.table td, .table th {
+    padding: 0.25rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.form-container {
+    max-width: 600px; /* Ajusta el ancho máximo del contenedor del formulario */
+    margin: 0 auto; /* Centra el contenedor del formulario */
+    padding: 1rem; /* Agrega un poco de espaciado alrededor del contenedor */
+}
+
+h2 {
+    margin-bottom: 1rem; /* Espaciado debajo del título */
+}
+
+.form-actions {
+    display: flex; /* Utiliza flexbox para alinear los botones */
+    flex-direction: column; /* Alinea los botones en una columna */
+    gap: 1rem; /* Espaciado entre los botones */
+}
+
+.btn {
+    width: 60%; /* Asegura que los botones ocupen todo el ancho disponible */
+    text-align: center; /* Centra el texto del botón */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-info{
+    width: 100%
+}
+.mt-3 {
+    margin-top: 1rem; /* Espaciado arriba del botón 'Volver al Dashboard' */
+}
+
+h1 {
+    margin-bottom: 2rem; /* Espacio debajo del título */
+}
+
+.list-group-item {
+    padding: 1rem; /* Espacio dentro de cada elemento de la lista */
+    margin-bottom: 0.5rem; /* Espacio debajo de cada elemento de la lista */
+}
+
+.btn-link {
+    font-size: 1rem; /* Tamaño de fuente del enlace */
+    text-decoration: none; /* Quita el subrayado del enlace */
+}
+
+.form-row{
+    display: table-row;
 }
