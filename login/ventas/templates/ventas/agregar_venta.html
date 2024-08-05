@@ -1,44 +1,76 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Venta</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantidadInput = document.getElementById('id_cantidad');
+            const precioUnitarioInput = document.getElementById('id_precio_unitario');
+            const pagoEfectivoInput = document.getElementById('id_pago_efectivo');
+            const pagoPuntosInput = document.getElementById('id_pago_puntos');
+            const pagoTarjetaInput = document.getElementById('id_pago_tarjeta');
+            const totalPagarSpan = document.getElementById('total-pagar');
+            const totalRestanteSpan = document.getElementById('total-restante');
+            const guardarButton = document.querySelector('button[type="submit"]');
+
+            function updateTotals() {
+                const cantidad = parseFloat(cantidadInput.value) || 0;
+                const precioUnitario = parseFloat(precioUnitarioInput.value) || 0;
+                const totalPagar = cantidad * precioUnitario;
+                totalPagarSpan.textContent = totalPagar.toFixed(2);
+
+                const pagoEfectivo = parseFloat(pagoEfectivoInput.value) || 0;
+                const pagoPuntos = parseFloat(pagoPuntosInput.value) || 0;
+                const pagoTarjeta = parseFloat(pagoTarjetaInput.value) || 0;
+                const totalPagado = pagoEfectivo + pagoPuntos + pagoTarjeta;
+                const totalRestante = totalPagar - totalPagado;
+                totalRestanteSpan.textContent = totalRestante.toFixed(2);
+
+                if (totalRestante === 0) {
+                    guardarButton.disabled = false;
+                } else {
+                    guardarButton.disabled = true;
+                }
+
+                if (totalRestante < 0) {
+                    totalRestanteSpan.style.color = 'red';
+                    totalRestanteSpan.textContent = 'Exceso de pago';
+                    guardarButton.disabled = true;
+                } else {
+                    totalRestanteSpan.style.color = '';
+                }
+            }
+
+            cantidadInput.addEventListener('input', updateTotals);
+            precioUnitarioInput.addEventListener('input', updateTotals);
+            pagoEfectivoInput.addEventListener('input', updateTotals);
+            pagoPuntosInput.addEventListener('input', updateTotals);
+            pagoTarjetaInput.addEventListener('input', updateTotals);
+
+            updateTotals();
+        });
+    </script>
+</head>
 <div class="container-fluid">
-    <h2 class="mb-4">Añadir Venta</h2>
-    <form method="post" class="form-container add-venta-form">
+    <h1 class="mb-4">Añadir Nueva Venta</h1>
+    <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
+        {{ form.as_p }}
         <div class="form-group">
-            <label for="{{ form.usuario.id_for_label }}">{{ form.usuario.label }}</label>
-            {{ form.usuario|safe }}
+            <label>Total a pagar: <span id="total-pagar" class="font-weight-bold">0.00</span></label>
         </div>
         <div class="form-group">
-            <label for="{{ form.descripcion.id_for_label }}">{{ form.descripcion.label }}</label>
-            {{ form.descripcion|safe }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.cantidad.id_for_label }}">{{ form.cantidad.label }}</label>
-            {{ form.cantidad|safe }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.precio_unitario.id_for_label }}">{{ form.precio_unitario.label }}</label>
-            {{ form.precio_unitario|safe }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.pago_efectivo.id_for_label }}">{{ form.pago_efectivo.label }}</label>
-            {{ form.pago_efectivo|safe }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.pago_puntos.id_for_label }}">{{ form.pago_puntos.label }}</label>
-            {{ form.pago_puntos|safe }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.pago_tarjeta.id_for_label }}">{{ form.pago_tarjeta.label }}</label>
-            {{ form.pago_tarjeta|safe }}
-        </div>
-        <div class="form-group">
-            <p>Total a pagar: <span id="total-pagar">0.00</span></p>
-            <p>Total restante: <span id="total-restante">0.00</span></p>
+            <label>Total restante: <span id="total-restante" class="font-weight-bold">0.00</span></label>
         </div>
         <button type="submit" class="btn btn-primary" disabled>Guardar</button>
-        <a href="{% url 'lista_todas_ventas' %}" class="btn btn-secondary mt-3">Regresar</a>
     </form>
+    <a href="{% url 'lista_todas_ventas' %}" class="btn btn-link mt-3">Volver a la lista de ventas</a>
 </div>
+</html>
 {% endblock %}

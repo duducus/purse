@@ -105,14 +105,20 @@ nav ul li {
     border: 1px solid #ffffff;
 }
 
-.form-group {
-    margin-bottom: 15px;
-    text-align: center; /* Centra el contenido principal */
-}
-
-.form-group label {
+label {
     display: block;
     margin-bottom: 5px;
+}
+
+input,select{
+    width: 60% !important;
+    display: inline !important;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
 .form-group input,
@@ -125,6 +131,7 @@ nav ul li {
     color: #000000;
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
+
 .form-control-puntos{
     width:20% !important; 
     z-index: 999;
@@ -427,5 +434,5 @@ h1 {
 }
 
 .form-row{
-    display: contents;
+    display: table-row;
 }

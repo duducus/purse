@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required,  user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Torneo, InscripcionTorneo
 from .forms import TorneoForm, InscripcionTorneoForm
@@ -16,7 +16,6 @@ def torneo_detail(request, pk):
     torneo = get_object_or_404(Torneo, pk=pk)
     inscripciones = torneo.inscripciones_torneo.all()
 
-    # Calcular el total de entradas y el total de premios calculados
     total_entradas = sum(inscripcion.entrada for inscripcion in inscripciones)
     total_premios = sum(inscripcion.premio_calculado for inscripcion in inscripciones)
     ganancias_torneos = total_entradas - total_premios
@@ -25,6 +24,9 @@ def torneo_detail(request, pk):
         form = InscripcionTorneoForm(request.POST)
         if form.is_valid():
             inscripcion = form.save(commit=False)
+            jugador = form.cleaned_data.get('jugador_codigo')
+            if jugador:
+                inscripcion.jugador = jugador
             inscripcion.torneo = torneo
             inscripcion.save()
             return redirect('torneo_detail', pk=torneo.pk)
@@ -35,10 +37,8 @@ def torneo_detail(request, pk):
         'torneo': torneo,
         'inscripciones': inscripciones,
         'form': form,
-        'ganancias_torneos': ganancias_torneos,  # Pasar ganancias_torneos al contexto
+        'ganancias_torneos': ganancias_torneos,
     })
-
-
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def crear_torneo(request):
@@ -49,9 +49,13 @@ def crear_torneo(request):
         if torneo_form.is_valid() and inscripcion_formset.is_valid():
             torneo = torneo_form.save()
             for form in inscripcion_formset:
-                inscripcion = form.save(commit=False)
-                inscripcion.torneo = torneo
-                inscripcion.save()
+                if form.is_valid():
+                    inscripcion = form.save(commit=False)
+                    jugador = form.cleaned_data.get('jugador_codigo')
+                    if jugador:
+                        inscripcion.jugador = jugador
+                    inscripcion.torneo = torneo
+                    inscripcion.save()
             return redirect('torneo_list')
         else:
             print(torneo_form.errors)  # Para depurar errores de validación

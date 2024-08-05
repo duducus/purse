@@ -1,19 +1,31 @@
 from django import forms
 from .models import Venta
+from core.models import CustomUser
 
 class VentaForm(forms.ModelForm):
+    usuario_codigo = forms.CharField(label='Código del Usuario', max_length=12, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Venta
-        fields = ['usuario', 'descripcion', 'cantidad', 'precio_unitario', 'pago_efectivo', 'pago_puntos', 'pago_tarjeta']
+        fields = ['usuario_codigo', 'descripcion', 'cantidad', 'precio_unitario', 'pago_efectivo', 'pago_puntos', 'pago_tarjeta']
         widgets = {
-            'usuario': forms.Select(attrs={}),
-            'descripcion': forms.TextInput(attrs={}),
-            'cantidad': forms.NumberInput(attrs={}),
-            'precio_unitario': forms.NumberInput(attrs={}),
-            'pago_efectivo': forms.NumberInput(attrs={'value': 0}),
-            'pago_puntos': forms.NumberInput(attrs={'value': 0}),
-            'pago_tarjeta': forms.NumberInput(attrs={'value': 0}),
+            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
+            'precio_unitario': forms.NumberInput(attrs={'class': 'form-control'}),
+            'pago_efectivo': forms.NumberInput(attrs={'class': 'form-control', 'value': 0}),
+            'pago_puntos': forms.NumberInput(attrs={'class': 'form-control', 'value': 0}),
+            'pago_tarjeta': forms.NumberInput(attrs={'class': 'form-control', 'value': 0}),
         }
+
+    def clean_usuario_codigo(self):
+        codigo = self.cleaned_data.get('usuario_codigo')
+        if codigo:
+            try:
+                usuario = CustomUser.objects.get(codigo=codigo)
+            except CustomUser.DoesNotExist:
+                raise forms.ValidationError("No se encontró ningún usuario con este código.")
+            return usuario
+        return None
 
     def clean(self):
         cleaned_data = super().clean()

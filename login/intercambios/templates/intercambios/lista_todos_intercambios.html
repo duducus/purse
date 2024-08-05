@@ -10,6 +10,7 @@
                     <th>Monto</th>
                     <th>Usuario</th>
                     <th>Artículo</th>
+                    <th>Fecha</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,12 +19,13 @@
                     <td>{{ intercambio.monto }}</td>
                     <td>{{ intercambio.usuario.username }}</td>
                     <td>{{ intercambio.articulo }}</td>
+                    <td>{{ intercambio.fecha }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     <a href="{% url 'nuevo_intercambio' %}" class="btn btn-primary mt-3">Nuevo Intercambio</a>
-    <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
 </div>
 {% endblock %}
