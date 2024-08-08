@@ -9,8 +9,9 @@ from .models import CustomUser, Movimiento
 from .forms import CustomUserCreationForm
 from barcode import Code128
 from barcode.writer import ImageWriter
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import io
+
 
 @login_required
 def home(request):
@@ -198,3 +199,24 @@ def manage_points(request):
 def movimientos_list(request):
     movimientos = Movimiento.objects.all().order_by('-fecha')
     return render(request, 'core/movimientos_list.html', {'movimientos': movimientos})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
+def delete_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('users_list')  # Redirige a la vista de la lista de usuarios
+    return redirect('users_list')  # Redirige a la vista de la lista de usuarios si el método no es POST
+
+def search_users(request):
+    query = request.GET.get('q', '')
+    if query:
+        usuarios = CustomUser.objects.filter(codigo__icontains=query)
+    else:
+        usuarios = CustomUser.objects.all()
+    
+    data = {
+        'usuarios': list(usuarios.values('id', 'username', 'email', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic'))
+    }
+    return JsonResponse(data)

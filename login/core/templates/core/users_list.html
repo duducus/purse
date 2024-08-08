@@ -13,8 +13,22 @@
 <body>
     <div class="container-fluid">
         <h2 class="mb-4">Lista de Usuarios</h2>
-        <table class="table table-bordered">
-            <thead  class="thead-dark">
+        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
+        <a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
+
+        <!-- Cuadro de búsqueda -->
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" id="search" class="form-control" placeholder="Buscar por código...">
+                <div class="input-group-append">
+                    <button id="search-btn" class="btn btn-primary" type="button">Buscar</button>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered" id="user-table">
+            <thead class="thead-dark">
                 <tr>
                     <th>Nombre de usuario</th>
                     <th>Correo electrónico</th>
@@ -43,9 +57,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
-        <a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a>
-        <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
     </div>
 
     <!-- Pop-up Modal -->
@@ -56,7 +67,6 @@
         </div>
     </div>
 
-    <!-- Incluye los scripts de Bootstrap y jQuery -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
@@ -73,7 +83,6 @@
             modal.style.display = "none";
         }
 
-        // Añadir eventos para cerrar el modal cuando se hace clic fuera del contenido
         window.onclick = function(event) {
             var modal = document.getElementById("barcodeModal");
             if (event.target == modal) {
@@ -82,6 +91,48 @@
         }
 
         document.getElementById("closeBtn").addEventListener("click", closeBarcode);
+
+        function fetchUsers(query) {
+            $.ajax({
+                url: "{% url 'search_users' %}",
+                data: { 'q': query },
+                success: function(data) {
+                    var tableBody = $('#user-table tbody');
+                    tableBody.empty();  // Limpiar la tabla existente
+
+                    $.each(data.usuarios, function(index, usuario) {
+                        var row = $('<tr>').append(
+                            $('<td>').text(usuario.username),
+                            $('<td>').text(usuario.email),
+                            $('<td>').text(usuario.saldo_regalo),
+                            $('<td>').text(usuario.codigo),
+                            $('<td>').text(usuario.puntos_pase_pkm),
+                            $('<td>').text(usuario.puntos_pase_yugioh),
+                            $('<td>').text(usuario.puntos_pase_magic),
+                            $('<td>').append(
+                                $('<button>').addClass('btn btn-info').text('Ver Código de Barras').attr('onclick', 'showBarcode("' + usuario.id + '")')
+                            )
+                        );
+                        tableBody.append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al buscar usuarios:", error);
+                }
+            });
+        }
+
+        // Buscar usuarios dinámicamente cuando se escribe
+        $('#search').on('input', function() {
+            var query = $(this).val();
+            fetchUsers(query);
+        });
+
+        // Buscar usuarios cuando se hace clic en el botón de búsqueda
+        $('#search-btn').on('click', function() {
+            var query = $('#search').val();
+            fetchUsers(query);
+        });
     </script>
 </body>
 </html>

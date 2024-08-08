@@ -15,5 +15,8 @@ urlpatterns = [
     path('pase-batalla/', views.pase_batalla, name='pase_batalla'),
     path('manage_points/', views.manage_points, name='manage_points'),
     path('movimientos_list/', views.movimientos_list, name='movimientos_list'), 
-    path('generate_barcode/<int:user_id>/', views.generate_barcode, name='generate_barcode')
+    path('generate_barcode/<int:user_id>/', views.generate_barcode, name='generate_barcode'),
+    path('usuarios/delete/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('usuarios/search/', views.search_users, name='search_users'),
 ]
+
