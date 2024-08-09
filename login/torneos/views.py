@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Torneo, InscripcionTorneo
 from .forms import TorneoForm, InscripcionTorneoForm
 from django.forms import modelformset_factory
-
+from core.models import CustomUser
+from django.http import JsonResponse
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def lista_torneos(request):
@@ -56,6 +57,20 @@ def crear_torneo(request):
                         inscripcion.jugador = jugador
                     inscripcion.torneo = torneo
                     inscripcion.save()
+                    
+                    # Actualizar los puntos del pase de batalla
+                    juego = torneo.juego
+                    puntos_a_sumar = 10
+                    if juego == 'pokemon':
+                        inscripcion.jugador.puntos_pase_pkm += puntos_a_sumar
+                    elif juego == 'yu_gi_oh':
+                        inscripcion.jugador.puntos_pase_yugioh += puntos_a_sumar
+                    elif juego == 'magic':
+                        inscripcion.jugador.puntos_pase_magic += puntos_a_sumar
+                    elif juego == 'heroclix':
+                        inscripcion.jugador.puntos_pase_heroclix += puntos_a_sumar
+                    inscripcion.jugador.save()
+                    
             return redirect('torneo_list')
         else:
             print(torneo_form.errors)  # Para depurar errores de validación
@@ -68,3 +83,31 @@ def crear_torneo(request):
         'torneo_form': torneo_form,
         'inscripcion_formset': inscripcion_formset,
     })
+
+def search_users_torneo(request):
+    codigo = request.GET.get('codigo')
+    usuario_nombre = None
+
+    if codigo:
+        try:
+            usuarios = CustomUser.objects.filter(codigo=codigo)
+            if usuarios.exists():
+                usuario = usuarios.first()
+                usuario_nombre = usuario.username
+            else:
+                usuario_nombre = 'Usuario no encontrado'
+        except ValueError:
+            usuario_nombre = 'Código no válido'
+    else:
+        usuario_nombre = 'Ingrese un código'
+
+    return render(request, 'torneos/create_torneo.html', {'usuario_nombre': usuario_nombre})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
+def eliminar_torneo(request, pk):
+    torneo = get_object_or_404(Torneo, pk=pk)
+    if request.method == 'POST':
+        torneo.delete()
+        return redirect('torneo_list')
+    return render(request, 'torneos/eliminar_torneo.html', {'torneo': torneo})

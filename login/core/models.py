@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from torneos.models import Torneo, InscripcionTorneo
 
 class CustomUser(AbstractUser):
     saldo = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -11,6 +12,9 @@ class CustomUser(AbstractUser):
     puntos_pase_pkm = models.IntegerField(default=0)
     puntos_pase_yugioh = models.IntegerField(default=0)
     puntos_pase_magic = models.IntegerField(default=0)
+    puntos_pase_heroclix = models.IntegerField(default=0) 
+    telefono = models.CharField(max_length=10, blank=True, null=True) 
+    apellidos = models.CharField(max_length=255, blank=True, null=True) 
     
     def save(self, *args, **kwargs):
         if self.puntos_pase_pkm < 0:
@@ -19,6 +23,8 @@ class CustomUser(AbstractUser):
             self.puntos_pase_yugioh = 0
         if self.puntos_pase_magic < 0:
             self.puntos_pase_magic = 0
+        if self.puntos_pase_heroclix < 0:
+            self.puntos_pase_heroclix = 0 
         super().save(*args, **kwargs)
 
 class Movimiento(models.Model):
@@ -27,11 +33,12 @@ class Movimiento(models.Model):
     puntos_pokemon = models.IntegerField()
     puntos_yugioh = models.IntegerField()
     puntos_magic = models.IntegerField()
+    puntos_heroclix = models.IntegerField(default=0)  # Nuevo campo
     concepto = models.CharField(max_length=255)
     
     def __str__(self):
         return f'{self.user.username} - {self.concepto}'
-    
+
 @receiver(post_save, sender=CustomUser)
 def agregar_codigo_a_usuario(sender, instance, created, **kwargs):
     if created and not instance.codigo:  # Solo ejecutar si el usuario se está creando por primera vez y no tiene un código

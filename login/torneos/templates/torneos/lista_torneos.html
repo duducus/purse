@@ -9,6 +9,8 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Fecha de inicio</th>
+                    <th>Juego</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,12 +18,16 @@
                 <tr>
                     <td><a href="{% url 'torneo_detail' torneo.pk %}">{{ torneo.nombre }}</a></td>
                     <td>{{ torneo.fecha_inicio }}</td>
+                    <td>{{ torneo.juego }}</td>
+                    <td>
+                        <a href="{% url 'eliminar_torneo' torneo.pk %}" class="btn btn-danger btn-sm">X</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     <a href="{% url 'crear_torneo' %}" class="btn btn-primary mt-3">Nuevo Torneo</a>
-    <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
 </div>
 {% endblock %}

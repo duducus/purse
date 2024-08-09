@@ -5,24 +5,23 @@
     <h2 class="mb-4">Crear Nuevo Torneo</h2>
     <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-            {{ torneo_form.as_p }}
-            {% if torneo_form.errors %}
-                <div class="alert alert-danger">
-                    {% for field in torneo_form %}
-                        {% for error in field.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+        {{ torneo_form.as_p }}
+        {% if torneo_form.errors %}
+            <div class="alert alert-danger">
+                {% for field in torneo_form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
                     {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <h3 class="mb-4">Añadir Participantes</h3>
         <table class="table table-bordered table-striped" id="inscripciones-table">
             <thead class="thead-dark">
                 <tr>
                     <th>Código del Jugador</th>
+                    <th>Nombre del Jugador</th> <!-- Columna añadida -->
                     <th>Entrada</th>
                     <th>Posición</th>
                     <th>Acciones</th>
@@ -32,7 +31,12 @@
                 {{ inscripcion_formset.management_form }}
                 {% for form in inscripcion_formset %}
                     <tr class="form-row">
-                        <td>{{ form.jugador_codigo }}</td>
+                        <td>
+                            {{ form.jugador_codigo }}
+                        </td>
+                        <td>
+                            <span class="player-name">No se ha ingresado</span> <!-- Campo para el nombre del jugador -->
+                        </td>
                         <td>{{ form.entrada }}</td>
                         <td>{{ form.posicion }}</td>
                         <td>
@@ -42,7 +46,7 @@
                 {% endfor %}
                 {% if inscripcion_formset.non_form_errors %}
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <div class="alert alert-danger">
                                 {% for error in inscripcion_formset.non_form_errors %}
                                     <p>{{ error }}</p>
@@ -60,6 +64,7 @@
 </div>
 
 <script>
+    // Este código está en tu template de crear torneo en la aplicación torneos
 document.addEventListener('DOMContentLoaded', function() {
     const addRowButton = document.getElementById('add-row');
     const tableBody = document.querySelector('#inscripciones-table tbody');
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addRowButton.addEventListener('click', function() {
         const newRow = emptyRow.cloneNode(true);
-        newRow.classList.add('form-row'); // Añadir la clase a la nueva fila
+        newRow.classList.add('form-row');
         newRow.querySelectorAll('input, select').forEach((input) => {
             const name = input.name.replace(/-\d+-/, `-${formIndex}-`);
             const id = input.id.replace(/-\d+-/, `-${formIndex}-`);
@@ -77,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             input.id = id;
             input.value = ''; // Limpiar el valor del campo de entrada
         });
-        tableBody.appendChild(newRow); // Añadir la nueva fila al final
+        tableBody.appendChild(newRow);
         formIndex++;
         updateManagementForm();
     });
@@ -93,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateManagementForm() {
         const totalForms = document.querySelectorAll('.form-row').length;
         document.querySelector('#id_form-TOTAL_FORMS').value = totalForms;
-        // Actualizar los índices de los formularios restantes
         document.querySelectorAll('.form-row').forEach((row, index) => {
             row.querySelectorAll('input, select').forEach((input) => {
                 const name = input.name.replace(/-\d+-/, `-${index}-`);
@@ -103,6 +107,30 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    tableBody.addEventListener('input', function(event) {
+        if (event.target.name.includes('jugador_codigo')) {
+            const input = event.target;
+            const row = input.closest('tr');
+            const codigo = input.value;
+
+            if (codigo.length === 12) {
+                fetch(`/buscar_usuario/?codigo=${codigo}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const playerNameElement = row.querySelector('.player-name');
+                        if (data.nombre) {
+                            playerNameElement.textContent = data.nombre;
+                        } else {
+                            playerNameElement.textContent = 'Usuario no encontrado';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                row.querySelector('.player-name').textContent = 'Código inválido';
+            }
+        }
+    });
 });
 </script>
 {% endblock %}

@@ -4,8 +4,18 @@ from decimal import Decimal, ROUND_HALF_UP, ROUND_UP
 import math
 
 class Torneo(models.Model):
+    JUEGOS_CHOICES = [
+        ('yu_gi_oh', 'Yu Gi Oh'),
+        ('magic', 'Magic'),
+        ('pokemon', 'Pokémon'),
+        ('heroclix', 'Heroclix'),
+    ]
+
     nombre = models.CharField(max_length=100)
     fecha_inicio = models.DateField()
+    juego = models.CharField(max_length=20, choices=JUEGOS_CHOICES)
+    def __str__(self):
+        return self.nombre
 
 class InscripcionTorneo(models.Model):
     torneo = models.ForeignKey('Torneo', related_name='inscripciones_torneo', on_delete=models.CASCADE)

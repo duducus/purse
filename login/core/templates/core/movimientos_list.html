@@ -3,14 +3,15 @@
 {% block content %}
 <div class="container-fluid">
 <h3>Lista de Movimientos</h3>
-<table class="table" border="1">
-    <thead>
+<table class="table table-bordered">
+    <thead class="thead-dark">
         <tr>
             <th>Usuario</th>
             <th>Fecha</th>
             <th>Pokémon</th>
             <th>Yu-Gi-Oh!</th>
             <th>Magic</th>
+            <th>Heroclix</th>
             <th>Concepto</th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
                 <td>{{ movimiento.puntos_pokemon }}</td>
                 <td>{{ movimiento.puntos_yugioh }}</td>
                 <td>{{ movimiento.puntos_magic }}</td>
+                <td>{{movimiento.puntos_heroclix}}</td>
                 <td>{{ movimiento.concepto }}</td>
             </tr>
         {% endfor %}

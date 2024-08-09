@@ -20,12 +20,14 @@ def home(request):
     puntos_pase_pkm = request.user.puntos_pase_pkm if request.user.is_authenticated else 0
     puntos_pase_yugioh = request.user.puntos_pase_yugioh if request.user.is_authenticated else 0
     puntos_pase_magic = request.user.puntos_pase_magic if request.user.is_authenticated else 0
+    puntos_pase_heroclix = request.user.puntos_pase_heroclix if request.user.is_authenticated else 0
     return render(request, 'core/home.html', {
         'saldo': saldo,
         'saldo_regalo': saldo_regalo,
         'puntos_pase_pkm': puntos_pase_pkm,
         'puntos_pase_yugioh' : puntos_pase_yugioh,
-        'puntos_pase_magic': puntos_pase_magic
+        'puntos_pase_magic': puntos_pase_magic,
+        'puntos_pase_heroclix': puntos_pase_heroclix
     })
 
 @login_required
@@ -40,7 +42,8 @@ def informacion(request):
                 'nombre': inscripcion.torneo.nombre,
                 'entrada': inscripcion.entrada,
                 'premio': inscripcion.premio,
-                'posicion': inscripcion.posicion
+                'posicion': inscripcion.posicion,
+                'juego' : inscripcion.torneo.juego
             })
 
         intercambios = Intercambio.objects.filter(usuario=request.user)
@@ -105,6 +108,20 @@ def pase_batalla(request):
         '', '', '', '', '', '', '', '', '', ''
     ]
 
+    premios_normales_heroclix = [
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', ''
+    ]
+    premios_premium_heroclix = [
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', 
+        '', '', '', '', '', '', '', '', '', ''
+    ]
     return render(request, 'core/pase_batalla.html', {
         'puntos_rango': puntos_rango,
         'premios_normales_pkm': premios_normales_pkm,
@@ -113,10 +130,14 @@ def pase_batalla(request):
         'premios_premium_yugioh': premios_premium_yugioh,
         'premios_normales_magic': premios_normales_magic,
         'premios_premium_magic': premios_premium_magic,
+        'premios_normales_heroclix': premios_normales_heroclix,
+        'premios_premium_heroclix': premios_premium_heroclix,
         'puntos_pase_pkm': request.user.puntos_pase_pkm,
         'puntos_pase_yugioh': request.user.puntos_pase_yugioh,
-        'puntos_pase_magic': request.user.puntos_pase_magic
+        'puntos_pase_magic': request.user.puntos_pase_magic,
+        'puntos_pase_heroclix': request.user.puntos_pase_heroclix
     })
+
 def products(request):
     user_authenticated = request.user.is_authenticated
     context = {'user_authenticated': user_authenticated}
@@ -173,6 +194,7 @@ def manage_points(request):
         puntos_pokemon = int(request.POST.get('puntos_pokemon', 0))
         puntos_yugioh = int(request.POST.get('puntos_yugioh', 0))
         puntos_magic = int(request.POST.get('puntos_magic', 0))
+        puntos_heroclix = int(request.POST.get('puntos_heroclix', 0))  # Nuevo campo para Heroclix
         concepto = request.POST.get('concepto', '')
 
         user = CustomUser.objects.get(id=user_id)
@@ -180,6 +202,7 @@ def manage_points(request):
         user.puntos_pase_pkm = max(user.puntos_pase_pkm + puntos_pokemon, 0)
         user.puntos_pase_yugioh = max(user.puntos_pase_yugioh + puntos_yugioh, 0)
         user.puntos_pase_magic = max(user.puntos_pase_magic + puntos_magic, 0)
+        user.puntos_pase_heroclix = max(user.puntos_pase_heroclix + puntos_heroclix, 0)  # Actualizar Heroclix
         user.save()
 
         Movimiento.objects.create(
@@ -187,6 +210,7 @@ def manage_points(request):
             puntos_pokemon=puntos_pokemon,
             puntos_yugioh=puntos_yugioh,
             puntos_magic=puntos_magic,
+            puntos_heroclix=puntos_heroclix, 
             concepto=concepto
         )
 
@@ -210,13 +234,31 @@ def delete_user(request, user_id):
     return redirect('users_list')  # Redirige a la vista de la lista de usuarios si el método no es POST
 
 def search_users(request):
-    query = request.GET.get('q', '')
-    if query:
-        usuarios = CustomUser.objects.filter(codigo__icontains=query)
+    codigo = request.GET.get('codigo')
+    if codigo:
+        try:
+            usuarios = CustomUser.objects.filter(codigo=codigo)
+            if not usuarios.exists():
+                # Si no hay usuarios, puedes añadir un mensaje en el contexto
+                no_results = True
+            else:
+                no_results = False
+        except ValueError:
+            # Manejo de error si el código no es válido
+            usuarios = CustomUser.objects.none()
+            no_results = True
     else:
         usuarios = CustomUser.objects.all()
-    
-    data = {
-        'usuarios': list(usuarios.values('id', 'username', 'email', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic'))
-    }
-    return JsonResponse(data)
+        no_results = False
+
+    return render(request, 'core/users_list.html', {'usuarios': usuarios, 'no_results': no_results})
+
+def buscar_usuario(request):
+    codigo = request.GET.get('codigo')
+    if codigo:
+        try:
+            usuario = CustomUser.objects.get(codigo=codigo)
+            return JsonResponse({'nombre': usuario.username})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'nombre': None})
+    return JsonResponse({'nombre': None})

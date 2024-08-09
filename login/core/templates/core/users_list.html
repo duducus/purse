@@ -18,41 +18,54 @@
         <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
 
         <!-- Cuadro de búsqueda -->
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" id="search" class="form-control" placeholder="Buscar por código...">
-                <div class="input-group-append">
-                    <button id="search-btn" class="btn btn-primary" type="button">Buscar</button>
-                </div>
-            </div>
-        </div>
+            <form method="get" action="{% url 'search_users' %}" class="form">
+                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código" maxlength="12" required>
+                <button type="submit" class="btn btn-primary" id="searchButton" disabled>Buscar</button>
 
-        <table class="table table-bordered" id="user-table">
+            </form>
+            <div id="searchError" class="text-danger mt-2" style="display: none;">Usuario no encontrado</div>
+            <br>
+        <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>Nombre de usuario</th>
                     <th>Correo electrónico</th>
+                    <th>Teléfono</th>
                     <th>Saldo regalo</th>
                     <th>Código</th>
                     <th>Puntos Pase PKM</th>
                     <th>Puntos Pase Yu-Gi-Oh</th>
                     <th>Puntos Pase Magic</th>
+                    <th>Puntos Pase Heroclix</th>
                     <th>Código de Barras</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="userTableBody">
                 {% for usuario in usuarios %}
                 <tr>
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.telefono }}</td>
                     <td>{{ usuario.saldo_regalo }}</td>
                     <td>{{ usuario.codigo }}</td>
                     <td>{{ usuario.puntos_pase_pkm }}</td>
                     <td>{{ usuario.puntos_pase_yugioh }}</td>
-                    <td>{{ usuario.puntos_pase_magic }}</td>
+                    <td>{{ usuario.puntos_pase_magic}}</td>
+                    <td>{{ usuario.puntos_pase_heroclix }}</td>
                     <td>
                         <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Ver Código de Barras</button>
                     </td>
+                    <td>
+                        <form method="post" action="{% url 'delete_user' usuario.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">X</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9">No se encontraron usuarios.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -67,10 +80,8 @@
         </div>
     </div>
 
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-
     <script>
+        // Función para mostrar el código de barras en el modal
         function showBarcode(userId) {
             var modal = document.getElementById("barcodeModal");
             var barcodeImage = document.getElementById("barcodeImage");
@@ -78,11 +89,13 @@
             modal.style.display = "flex";
         }
 
+        // Función para cerrar el modal
         function closeBarcode() {
             var modal = document.getElementById("barcodeModal");
             modal.style.display = "none";
         }
 
+        // Añadir eventos para cerrar el modal cuando se hace clic fuera del contenido
         window.onclick = function(event) {
             var modal = document.getElementById("barcodeModal");
             if (event.target == modal) {
@@ -92,46 +105,11 @@
 
         document.getElementById("closeBtn").addEventListener("click", closeBarcode);
 
-        function fetchUsers(query) {
-            $.ajax({
-                url: "{% url 'search_users' %}",
-                data: { 'q': query },
-                success: function(data) {
-                    var tableBody = $('#user-table tbody');
-                    tableBody.empty();  // Limpiar la tabla existente
-
-                    $.each(data.usuarios, function(index, usuario) {
-                        var row = $('<tr>').append(
-                            $('<td>').text(usuario.username),
-                            $('<td>').text(usuario.email),
-                            $('<td>').text(usuario.saldo_regalo),
-                            $('<td>').text(usuario.codigo),
-                            $('<td>').text(usuario.puntos_pase_pkm),
-                            $('<td>').text(usuario.puntos_pase_yugioh),
-                            $('<td>').text(usuario.puntos_pase_magic),
-                            $('<td>').append(
-                                $('<button>').addClass('btn btn-info').text('Ver Código de Barras').attr('onclick', 'showBarcode("' + usuario.id + '")')
-                            )
-                        );
-                        tableBody.append(row);
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error al buscar usuarios:", error);
-                }
-            });
-        }
-
-        // Buscar usuarios dinámicamente cuando se escribe
-        $('#search').on('input', function() {
-            var query = $(this).val();
-            fetchUsers(query);
-        });
-
-        // Buscar usuarios cuando se hace clic en el botón de búsqueda
-        $('#search-btn').on('click', function() {
-            var query = $('#search').val();
-            fetchUsers(query);
+        // Validar el campo de búsqueda y habilitar el botón
+        document.getElementById("searchCodigo").addEventListener("input", function() {
+            var codigo = this.value;
+            var searchButton = document.getElementById("searchButton");
+            searchButton.disabled = !(codigo.length === 12 && /^\d+$/.test(codigo));
         });
     </script>
 </body>

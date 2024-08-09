@@ -7,7 +7,7 @@ class InscripcionTorneoInline(admin.TabularInline):
 
 class TorneoAdmin(admin.ModelAdmin):
     inlines = [InscripcionTorneoInline]
-    list_display = ('nombre', 'fecha_inicio')
+    list_display = ('nombre', 'fecha_inicio','juego')
     search_fields = ('nombre',)
 
 admin.site.register(Torneo, TorneoAdmin)

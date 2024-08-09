@@ -33,11 +33,15 @@ class Venta(models.Model):
 def actualizar_saldo_usuario(sender, instance, created, **kwargs):
     if created:
         usuario = instance.usuario
-        usuario.saldo += instance.precio_total
+        porcentaje = Decimal('0.03')  # 3% en formato decimal
+        monto_a_sumar = instance.precio_total * porcentaje
+        usuario.saldo += monto_a_sumar
         usuario.save()
 
 @receiver(post_delete, sender=Venta)
 def restar_saldo_usuario(sender, instance, **kwargs):
     usuario = instance.usuario
-    usuario.saldo -= instance.precio_total
+    porcentaje = Decimal('0.03')  # 3% en formato decimal
+    monto_a_restar = instance.precio_total * porcentaje
+    usuario.saldo -= monto_a_restar
     usuario.save()
