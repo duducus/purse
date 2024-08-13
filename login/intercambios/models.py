@@ -11,7 +11,7 @@ class Intercambio(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.usuario.saldo += self.monto
+        self.usuario.saldo_regalo += self.monto
         self.usuario.save()
 
 @receiver(post_delete, sender=Intercambio)

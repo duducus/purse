@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from decimal import Decimal, ROUND_HALF_UP, ROUND_UP
 import math
+from django.db import transaction
 
 class Torneo(models.Model):
     JUEGOS_CHOICES = [
@@ -62,4 +63,9 @@ class InscripcionTorneo(models.Model):
 
     def save(self, *args, **kwargs):
         self.premio = self.premio_calculado
-        super().save(*args, **kwargs)
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            # Actualizar el saldo_regalo del jugador
+            if self.premio_calculado > 0:
+                self.jugador.saldo_regalo += self.premio_calculado
+                self.jugador.save()

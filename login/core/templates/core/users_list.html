@@ -31,6 +31,7 @@
                     <th>Nombre de usuario</th>
                     <th>Correo electrónico</th>
                     <th>Teléfono</th>
+                    <th>Saldo</th>
                     <th>Saldo regalo</th>
                     <th>Código</th>
                     <th>Puntos Pase PKM</th>
@@ -47,6 +48,7 @@
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.saldo }}</td>
                     <td>{{ usuario.saldo_regalo }}</td>
                     <td>{{ usuario.codigo }}</td>
                     <td>{{ usuario.puntos_pase_pkm }}</td>
@@ -54,7 +56,7 @@
                     <td>{{ usuario.puntos_pase_magic}}</td>
                     <td>{{ usuario.puntos_pase_heroclix }}</td>
                     <td>
-                        <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Ver Código de Barras</button>
+                        <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Barcode</button>
                     </td>
                     <td>
                         <form method="post" action="{% url 'delete_user' usuario.id %}" style="display:inline;">
