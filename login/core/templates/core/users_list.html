@@ -34,17 +34,17 @@
                     <th>Saldo</th>
                     <th>Saldo regalo</th>
                     <th>Código</th>
-                    <th>Puntos Pase PKM</th>
-                    <th>Puntos Pase Yu-Gi-Oh</th>
-                    <th>Puntos Pase Magic</th>
-                    <th>Puntos Pase Heroclix</th>
+                    <th>Puntos Pkmn</th>
+                    <th>Puntos Yu-Gi-Oh</th>
+                    <th>Puntos Magic</th>
+                    <th>Puntos Heroclix</th>
                     <th>Código de Barras</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
                 {% for usuario in usuarios %}
-                <tr>
+                <tr data-user-id="{{ usuario.id }}">
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.telefono }}</td>
@@ -78,6 +78,7 @@
     <div id="barcodeModal" class="modal">
         <div id="barcodeContent" class="modal-content">
             <span id="closeBtn" class="close-btn">&times;</span>
+            <h4 id="userName" class="mb-4"></h4>
             <img id="barcodeImage" src="" alt="Código de Barras">
         </div>
     </div>
@@ -87,7 +88,16 @@
         function showBarcode(userId) {
             var modal = document.getElementById("barcodeModal");
             var barcodeImage = document.getElementById("barcodeImage");
+            var userName = document.getElementById("userName");
+
+            // Obtener el nombre de usuario desde el HTML
+            var userRow = document.querySelector('tr[data-user-id="' + userId + '"]');
+            var username = userRow.querySelector('td:nth-child(1)').textContent;
+
+            // Configurar el nombre y el código de barras en el modal
+            userName.textContent = username;
             barcodeImage.src = "{% url 'generate_barcode' 0 %}".replace(0, userId);
+            
             modal.style.display = "flex";
         }
 

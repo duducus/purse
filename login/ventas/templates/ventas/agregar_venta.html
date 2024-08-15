@@ -55,6 +55,21 @@
 
             updateTotals();
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+    const inputs = document.querySelectorAll('input[type="number"]');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (input.value < 0) {
+                input.setCustomValidity("No se permiten números negativos");
+                input.reportValidity();  // Muestra el mensaje de inmediato
+            } else {
+                input.setCustomValidity("");
+            }
+        });
+    });
+});
     </script>
 </head>
 <div class="container-fluid">

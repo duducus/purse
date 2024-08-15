@@ -5,11 +5,11 @@ from core.models import CustomUser
 class TorneoForm(forms.ModelForm):
     class Meta:
         model = Torneo
-        fields = ['nombre', 'fecha_inicio', 'juego']
+        fields = ['nombre', 'fecha_inicio', 'juego', 'lambda_value', 'comision']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'juego': forms.Select(choices=Torneo.JUEGOS_CHOICES, attrs={'class': 'form-control'}),  # Agregar campo juego
+            'juego': forms.Select(choices=Torneo.JUEGOS_CHOICES, attrs={'class': 'form-control'}),
         }
 
 class InscripcionTorneoForm(forms.ModelForm):

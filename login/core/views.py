@@ -11,7 +11,8 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from django.http import HttpResponse, JsonResponse
 import io
-
+from django.db.models import CharField, Value
+from django.db.models.functions import Lower
 
 @login_required
 def home(request):
@@ -170,7 +171,9 @@ def create_user(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def users_list(request):
-    usuarios = CustomUser.objects.all()
+    usuarios = CustomUser.objects.annotate(
+        username_lower=Lower('username')
+    ).order_by('username_lower')
     return render(request, 'core/users_list.html', {'usuarios': usuarios})
 
 def generate_barcode(request, user_id):

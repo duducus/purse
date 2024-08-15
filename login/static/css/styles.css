@@ -110,6 +110,9 @@ label {
     margin-bottom: 5px;
 }
 
+.manage-form{
+    align-items: center;
+}
 input,select{
     width: 60% !important;
     display: inline !important;
@@ -120,7 +123,10 @@ input,select{
     color: #000000;
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
-
+.form-group {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
 .form-group input,
 .form-group select {
     width: 100%;
@@ -149,7 +155,10 @@ table {
     margin: 0 auto; /* Alinea la tabla al centro */
     margin-bottom: 30px;
 }
-
+.table-bordered{
+   width: 115%; 
+   margin-left: -60px;
+}
 .intercambios-page table,
 .ventas-page table{
     width: 100%; /* La tabla ocupará todo el ancho del contenedor */
@@ -398,7 +407,7 @@ h2 {
 }
 
 .form-actions {
-    display: flex; /* Utiliza flexbox para alinear los botones */
+    display: block; /* Utiliza flexbox para alinear los botones */
     flex-direction: column; /* Alinea los botones en una columna */
     gap: 1rem; /* Espaciado entre los botones */
 }
