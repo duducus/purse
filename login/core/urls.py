@@ -2,7 +2,8 @@
 from django.contrib.auth.views import LoginView
 from django.urls import path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('', views.home, name='home'),
     path('products/', views.products, name='products'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('generate_barcode/<int:user_id>/', views.generate_barcode, name='generate_barcode'),
     path('usuarios/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     path('usuarios/search/', views.search_users, name='search_users'),
-    path('buscar_usuario/', views.buscar_usuario, name='buscar_usuario'),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

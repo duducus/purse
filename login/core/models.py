@@ -15,6 +15,7 @@ class CustomUser(AbstractUser):
     puntos_pase_heroclix = models.IntegerField(default=0) 
     telefono = models.CharField(max_length=10, blank=True, null=True) 
     apellidos = models.CharField(max_length=255, blank=True, null=True) 
+    foto = models.ImageField(upload_to='user_photos/', blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if self.puntos_pase_pkm < 0:

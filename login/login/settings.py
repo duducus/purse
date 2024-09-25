@@ -31,6 +31,33 @@ INSTALLED_APPS = [
     'blog'
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Cambia el nivel de Django a WARNING para evitar mensajes excesivos
+            'propagate': True,
+        },
+        'core': {  # El nombre de tu app, asegúrate de que coincida con el nombre de tu módulo
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Aquí mantienes el nivel de logging en DEBUG solo para tu código
+            'propagate': True,
+        },
+        'intercambios': {  # El nombre de tu app, asegúrate de que coincida con el nombre de tu módulo
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Aquí mantienes el nivel de logging en DEBUG solo para tu código
+            'propagate': True,
+        },
+    },
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -95,6 +122,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core', 'templates', 'static'),

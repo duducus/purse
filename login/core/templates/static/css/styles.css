@@ -155,10 +155,12 @@ table {
     margin: 0 auto; /* Alinea la tabla al centro */
     margin-bottom: 30px;
 }
+
 .table-bordered{
-   width: 115%; 
-   margin-left: -60px;
+    width: 100%; 
+    margin-left: 0px;
 }
+
 .intercambios-page table,
 .ventas-page table{
     width: 100%; /* La tabla ocupará todo el ancho del contenedor */

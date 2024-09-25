@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import logout
 from torneos.models import InscripcionTorneo
 from intercambios.models import Intercambio
-from django.db.models import Sum
+from django.db.models import Q
 from .models import CustomUser, Movimiento
 from .forms import CustomUserCreationForm
 from barcode import Code128
@@ -13,6 +13,7 @@ from django.http import HttpResponse, JsonResponse
 import io
 from django.db.models import CharField, Value
 from django.db.models.functions import Lower
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -191,35 +192,39 @@ def generate_barcode(request, user_id):
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def manage_points(request):
-    users = CustomUser.objects.all()
     if request.method == 'POST':
-        user_id = request.POST.get('user')
+        codigo_usuario = request.POST.get('codigo_usuario')
         puntos_pokemon = int(request.POST.get('puntos_pokemon', 0))
         puntos_yugioh = int(request.POST.get('puntos_yugioh', 0))
         puntos_magic = int(request.POST.get('puntos_magic', 0))
-        puntos_heroclix = int(request.POST.get('puntos_heroclix', 0))  # Nuevo campo para Heroclix
+        puntos_heroclix = int(request.POST.get('puntos_heroclix', 0))
         concepto = request.POST.get('concepto', '')
 
-        user = CustomUser.objects.get(id=user_id)
+        try:
+            user = CustomUser.objects.get(codigo=codigo_usuario)
+        except CustomUser.DoesNotExist:
+           
+            return redirect('manage_points')
 
+        # Actualizar puntos del usuario
         user.puntos_pase_pkm = max(user.puntos_pase_pkm + puntos_pokemon, 0)
         user.puntos_pase_yugioh = max(user.puntos_pase_yugioh + puntos_yugioh, 0)
         user.puntos_pase_magic = max(user.puntos_pase_magic + puntos_magic, 0)
-        user.puntos_pase_heroclix = max(user.puntos_pase_heroclix + puntos_heroclix, 0)  # Actualizar Heroclix
+        user.puntos_pase_heroclix = max(user.puntos_pase_heroclix + puntos_heroclix, 0)
         user.save()
 
+        # Registrar movimiento
         Movimiento.objects.create(
             user=user,
             puntos_pokemon=puntos_pokemon,
             puntos_yugioh=puntos_yugioh,
             puntos_magic=puntos_magic,
-            puntos_heroclix=puntos_heroclix, 
+            puntos_heroclix=puntos_heroclix,
             concepto=concepto
         )
+        return redirect('movimientos_list')
 
-        return redirect('manage_points')
-
-    return render(request, 'core/manage_points.html', {'users': users})
+    return render(request, 'core/manage_points.html')
 
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
@@ -237,17 +242,18 @@ def delete_user(request, user_id):
     return redirect('users_list')  # Redirige a la vista de la lista de usuarios si el método no es POST
 
 def search_users(request):
-    codigo = request.GET.get('codigo')
-    if codigo:
+    query = request.GET.get('codigo')
+    if query:
         try:
-            usuarios = CustomUser.objects.filter(codigo=codigo)
+            # Búsqueda por código exacto o por coincidencia parcial en el nombre de usuario
+            usuarios = CustomUser.objects.filter(
+                Q(codigo=query) | Q(username__icontains=query)
+            )
             if not usuarios.exists():
-                # Si no hay usuarios, puedes añadir un mensaje en el contexto
                 no_results = True
             else:
                 no_results = False
         except ValueError:
-            # Manejo de error si el código no es válido
             usuarios = CustomUser.objects.none()
             no_results = True
     else:
@@ -255,13 +261,3 @@ def search_users(request):
         no_results = False
 
     return render(request, 'core/users_list.html', {'usuarios': usuarios, 'no_results': no_results})
-
-def buscar_usuario(request):
-    codigo = request.GET.get('codigo')
-    if codigo:
-        try:
-            usuario = CustomUser.objects.get(codigo=codigo)
-            return JsonResponse({'nombre': usuario.username})
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'nombre': None})
-    return JsonResponse({'nombre': None})

@@ -19,8 +19,8 @@
 
         <!-- Cuadro de búsqueda -->
             <form method="get" action="{% url 'search_users' %}" class="form">
-                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código" maxlength="12" required>
-                <button type="submit" class="btn btn-primary" id="searchButton" disabled>Buscar</button>
+                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código o nombre" maxlength="12" required>
+                <button type="submit" class="btn btn-primary" id="searchButton">Buscar</button>
 
             </form>
             <div id="searchError" class="text-danger mt-2" style="display: none;">Usuario no encontrado</div>
@@ -28,6 +28,7 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
+                    <th>Foto</th>
                     <th>Nombre de usuario</th>
                     <th>Correo electrónico</th>
                     <th>Teléfono</th>
@@ -45,6 +46,13 @@
             <tbody id="userTableBody">
                 {% for usuario in usuarios %}
                 <tr data-user-id="{{ usuario.id }}">
+                    <td>
+                        {% if usuario.foto %}
+                        <img src="{{ usuario.foto.url }}" alt="Foto de {{ usuario.username }}" width="50" height="50">
+                        {% else %}
+                        <span>Sin foto</span>
+                        {% endif %}
+                    </td>
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.telefono }}</td>
@@ -121,7 +129,7 @@
         document.getElementById("searchCodigo").addEventListener("input", function() {
             var codigo = this.value;
             var searchButton = document.getElementById("searchButton");
-            searchButton.disabled = !(codigo.length === 12 && /^\d+$/.test(codigo));
+            
         });
     </script>
 </body>
