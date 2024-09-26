@@ -261,3 +261,13 @@ def search_users(request):
         no_results = False
 
     return render(request, 'core/users_list.html', {'usuarios': usuarios, 'no_results': no_results})
+
+def buscar_usuario(request):
+    codigo = request.GET.get('codigo')
+    if codigo:
+        try:
+            usuario = CustomUser.objects.get(codigo=codigo)
+            return JsonResponse({'nombre': usuario.username})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'nombre': None})
+    return JsonResponse({'nombre': None})

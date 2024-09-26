@@ -68,7 +68,28 @@ class InscripcionTorneo(models.Model):
         self.premio = self.premio_calculado
         with transaction.atomic():
             super().save(*args, **kwargs)
-            # Actualizar el saldo_regalo del jugador
-            if self.premio_calculado > 0:
-                self.jugador.saldo_regalo += self.premio_calculado
-                self.jugador.save()
+            
+            # Lógica para ajustar el saldo y saldo_regalo
+            premio = self.premio_calculado
+            jugador = self.jugador
+
+            if premio > 0:
+                # Primero verificamos si el saldo es negativo
+                if jugador.saldo < 0:
+                    # Calculamos cuánto se necesita para llevar el saldo a 0
+                    deficit = abs(jugador.saldo)
+
+                    if premio >= deficit:
+                        # Si el premio es mayor o igual al déficit, llevamos el saldo a 0
+                        jugador.saldo = 0
+                        # Lo que sobra se suma a saldo_regalo
+                        jugador.saldo_regalo += (premio - deficit)
+                    else:
+                        # Si el premio no cubre todo el déficit, simplemente sumamos al saldo
+                        jugador.saldo += premio
+                else:
+                    # Si el saldo es 0 o mayor, sumamos directamente a saldo_regalo
+                    jugador.saldo_regalo += premio
+
+                # Guardamos los cambios del jugador
+                jugador.save()

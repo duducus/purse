@@ -19,6 +19,7 @@ urlpatterns = [
     path('generate_barcode/<int:user_id>/', views.generate_barcode, name='generate_barcode'),
     path('usuarios/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     path('usuarios/search/', views.search_users, name='search_users'),
+     path('buscar_usuario/', views.buscar_usuario, name='buscar_usuario'),
 ]
 
 if settings.DEBUG:
