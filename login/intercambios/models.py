@@ -13,6 +13,7 @@ class Intercambio(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)  # Agregamos el campo de fecha
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         # Verificamos si el monto es negativo y actuamos en consecuencia
         if self.monto < 0:
             monto_a_restar = abs(self.monto)  # Convertir monto a positivo
