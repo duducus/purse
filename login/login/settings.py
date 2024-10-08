@@ -1,5 +1,7 @@
 from pathlib import Path
 import os
+from django.conf import settings
+from django.conf.urls.static import static
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -124,6 +126,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+urlpatterns = [
+    # ... tus otras rutas aquí
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core', 'templates', 'static'),

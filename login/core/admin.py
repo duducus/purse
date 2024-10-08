@@ -12,11 +12,12 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    list_display = ['username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix','foto']
-    readonly_fields = ['get_saldo']
+    list_display = ['username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix', 'foto']
+    readonly_fields = ['get_saldo', 'foto_display']  # Asegúrate de que 'foto_display' esté en readonly_fields si solo quieres que se vea y no se edite en el changeform.
+
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('email', 'telefono', 'saldo')}),
+        ('Personal info', {'fields': ('email', 'telefono', 'saldo', 'saldo_regalo', 'foto', 'foto_display')}),  # Aquí añades el campo foto
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
@@ -27,10 +28,18 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
+    def foto_display(self, obj):
+        if obj.foto:
+            return format_html(f'<img src="{obj.foto.url}" width="100" height="100" />')
+        return "No image available"
+
+    foto_display.short_description = 'Foto de usuario'
+
     def get_saldo(self, obj):
         return obj.saldo
 
     get_saldo.short_description = 'Saldo'
+
 
     def get_urls(self):
         urls = super().get_urls()
