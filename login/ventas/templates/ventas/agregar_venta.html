@@ -10,6 +10,37 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('form-venta');
+            const buscarButton = document.getElementById('buscar-usuario-btn');
+            const codigoUsuarioInput = document.getElementById('codigo-usuario');
+            const saldoPuntosInput = document.getElementById('id_pago_puntos');
+            const codigoUsuarioHidden = document.getElementById('codigo-usuario-hidden');
+
+            buscarButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const codigo = codigoUsuarioInput.value;
+                
+                // Realiza la búsqueda del usuario por código
+                fetch(`/ventas/buscar_usuario/${codigo}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.usuario_encontrado) {
+                            form.style.display = 'block';  // Muestra el formulario completo
+                            saldoPuntosInput.value = data.saldo_regalo;  // Llena el campo de puntos
+                            codigoUsuarioHidden.value = codigo;  // Llena el campo hidden con el código del usuario
+                            
+                            // Ocultar el campo de código de usuario y el botón de búsqueda
+                            codigoUsuarioInput.style.display = 'none';
+                            buscarButton.style.display = 'none'; // Oculta el botón de buscar
+                        } else {
+                            alert('Usuario no encontrado');
+                        }
+                    });
+            });
+        });
+
+        // Lógica para actualizar totales del pago
+        document.addEventListener('DOMContentLoaded', function() {
             const cantidadInput = document.getElementById('id_cantidad');
             const precioUnitarioInput = document.getElementById('id_precio_unitario');
             const pagoEfectivoInput = document.getElementById('id_pago_efectivo');
@@ -55,33 +86,34 @@
 
             updateTotals();
         });
-
-        document.addEventListener("DOMContentLoaded", function() {
-    const inputs = document.querySelectorAll('input[type="number"]');
-
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (input.value < 0) {
-                input.setCustomValidity("No se permiten números negativos");
-                input.reportValidity();  // Muestra el mensaje de inmediato
-            } else {
-                input.setCustomValidity("");
-            }
-        });
-    });
-});
     </script>
 </head>
+<body>
 <div class="container-fluid">
     <h1 class="mb-4">Añadir Nueva Venta</h1>
-    <form method="post" class="needs-validation" novalidate>
+    
+    <!-- Sección de búsqueda de usuario -->
+    <div class="mb-4">
+        <label for="codigo-usuario">Código de Usuario:</label>
+        <input type="text" id="codigo-usuario" class="form-control" placeholder="Ingrese código de usuario">
+        <button id="buscar-usuario-btn" class="btn btn-primary mt-2">Buscar Usuario</button>
+    </div>
+
+    <!-- Formulario completo, inicialmente oculto -->
+    <form id="form-venta" method="post" class="needs-validation" novalidaate style="display: none;">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <!-- Campo oculto para el código de usuario -->
+        <input type="hidden" id="codigo-usuario-hidden" name="codigo_usuario">
+
         <label>Total a pagar: <span id="total-pagar" class="font-weight-bold">0.00</span></label>
         <label>Total restante: <span id="total-restante" class="font-weight-bold">0.00</span></label>
         <button type="submit" class="btn btn-primary" disabled>Guardar</button>
     </form>
+
     <a href="{% url 'lista_todas_ventas' %}" class="btn btn-link mt-3">Volver a la lista de ventas</a>
 </div>
+</body>
 </html>
 {% endblock %}
