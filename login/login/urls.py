@@ -20,8 +20,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('intercambios/', include('intercambios.urls')),
-    path('', include('core.urls')),  # Asumiendo que tienes un archivo urls.py en core
+    path('ventas/', include('ventas.urls')),
+    path('torneos/', include('torneos.urls')),
+    path('', include('core.urls')), 
+    path('blog/', include('blog.urls')),
 ]
-
-
 

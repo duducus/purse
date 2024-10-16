@@ -1,0 +1,137 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+    <!-- Incluye el CSS de Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+        <h2 class="mb-4">Lista de Usuarios</h2>
+        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
+        <a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
+
+        <!-- Cuadro de búsqueda -->
+            <form method="get" action="{% url 'search_users' %}" class="form">
+                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código o nombre" maxlength="12" required>
+                <button type="submit" class="btn btn-primary" id="searchButton">Buscar</button>
+
+            </form>
+            <div id="searchError" class="text-danger mt-2" style="display: none;">Usuario no encontrado</div>
+            <br>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombre de usuario</th>
+                    <th>Correo electrónico</th>
+                    <th>Teléfono</th>
+                    <th>Saldo</th>
+                    <th>Saldo regalo</th>
+                    <th>Código</th>
+                    <th>Puntos Pkmn</th>
+                    <th>Puntos Yu-Gi-Oh</th>
+                    <th>Puntos Magic</th>
+                    <th>Puntos Heroclix</th>
+                    <th>Código de Barras</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                {% for usuario in usuarios %}
+                <tr data-user-id="{{ usuario.id }}">
+                    <td>
+                        {% if usuario.foto %}
+                        <img src="{{ usuario.foto.url }}" alt="Foto de {{ usuario.username }}" width="50" height="50">
+                        {% else %}
+                        <span>Sin foto</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.saldo }}</td>
+                    <td>{{ usuario.saldo_regalo }}</td>
+                    <td>{{ usuario.codigo }}</td>
+                    <td>{{ usuario.puntos_pase_pkm }}</td>
+                    <td>{{ usuario.puntos_pase_yugioh }}</td>
+                    <td>{{ usuario.puntos_pase_magic}}</td>
+                    <td>{{ usuario.puntos_pase_heroclix }}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Barcode</button>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'delete_user' usuario.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">X</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9">No se encontraron usuarios.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pop-up Modal -->
+    <div id="barcodeModal" class="modal">
+        <div id="barcodeContent" class="modal-content">
+            <span id="closeBtn" class="close-btn">&times;</span>
+            <h4 id="userName" class="mb-4"></h4>
+            <img id="barcodeImage" src="" alt="Código de Barras">
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar el código de barras en el modal
+        function showBarcode(userId) {
+            var modal = document.getElementById("barcodeModal");
+            var barcodeImage = document.getElementById("barcodeImage");
+            var userName = document.getElementById("userName");
+
+            // Obtener el nombre de usuario desde el HTML
+            var userRow = document.querySelector('tr[data-user-id="' + userId + '"]');
+            var username = userRow.querySelector('td:nth-child(1)').textContent;
+
+            // Configurar el nombre y el código de barras en el modal
+            userName.textContent = username;
+            barcodeImage.src = "{% url 'generate_barcode' 0 %}".replace(0, userId);
+            
+            modal.style.display = "flex";
+        }
+
+        // Función para cerrar el modal
+        function closeBarcode() {
+            var modal = document.getElementById("barcodeModal");
+            modal.style.display = "none";
+        }
+
+        // Añadir eventos para cerrar el modal cuando se hace clic fuera del contenido
+        window.onclick = function(event) {
+            var modal = document.getElementById("barcodeModal");
+            if (event.target == modal) {
+                closeBarcode();
+            }
+        }
+
+        document.getElementById("closeBtn").addEventListener("click", closeBarcode);
+
+        // Validar el campo de búsqueda y habilitar el botón
+        document.getElementById("searchCodigo").addEventListener("input", function() {
+            var codigo = this.value;
+            var searchButton = document.getElementById("searchButton");
+            
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

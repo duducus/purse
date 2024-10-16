@@ -1,22 +1,43 @@
 {% extends 'core/base.html' %}
+{% load static custom_filters %}
 
 {% block content %} 
 
-<h3>Inicio</h3>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Columna para el contenido principal -->
+        <div class="col-md-6 mb-4">
+            <h3>Inicio</h3>
+            <hr>
+            <h4>
+                {% if request.user.is_authenticated %}
+                    {{ user.username|upper }}, Bienvenido
+                    <br>
+                    Saldo: {{ saldo }}
+                    <br>
+                    Saldo de regalo: {{ saldo_regalo }}
+                    <br>
+                    Puntos pase pokémon: {{ puntos_pase_pkm }}
+                    <br>
+                    Puntos pase Yu-Gi-Oh: {{ puntos_pase_yugioh }}
+                    <br>
+                    Puntos pase Magic: {{ puntos_pase_magic }}
+                    <br>
+                    Puntos pase Heroclix: {{puntos_pase_heroclix}}
 
-<hr>
+                {% else %}
+                    Bienvenido, visitante
+                {% endif %}
+            </h4>
+        </div>
 
-<h4>
-    {% if request.user.is_authenticated %}
-        {{ user.username|upper }}, Bienvenido
-        <br>
-        Saldo: {{ saldo }}
-        <br>
-        Saldo de regalo: {{ saldo_regalo }}
-        <br>
-    {% else %}
-        Bienvenido, visitante
-    {% endif %}
-</h4>
+        <!-- Columna para la lista de YouTube -->
+        <div class="col-md-6 mb-4 ">
+            <h1 class="mb-4">Mi Lista de Reproducción de YouTube</h1>
+            <div id="video-container" class="video-container text start"></div>
+        </div>
+    </div>
+</div>
 
+<script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}

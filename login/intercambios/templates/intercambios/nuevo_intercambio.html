@@ -1,11 +1,30 @@
-<!-- intercambios/templates/intercambios/nuevo_intercambio.html -->
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h1>Nuevo Intercambio</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+<div class="container-fluid">
+    {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <h2 class="mb-4">Añadir Intercambio</h2>
+    <form method="post" class="form-container add-intercambio-form">
+        {% csrf_token %}
+
+            <label for="{{ form.codigo_usuario.id_for_label }}">{{ form.codigo_usuario.label }}</label>
+            {{ form.codigo_usuario }}
+
+            <label for="{{ form.monto.id_for_label }}">{{ form.monto.label }}</label>
+            {{ form.monto }}
+
+            <label for="{{ form.articulo.id_for_label }}">{{ form.articulo.label }}</label>
+            {{ form.articulo }}
+
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        
+        <a href="{% url 'lista_todos_intercambios' %}" class="btn btn-secondary mt-3">Regresar</a>
+    </form>
+</div>
 {% endblock %}

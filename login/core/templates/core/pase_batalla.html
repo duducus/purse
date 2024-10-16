@@ -1,0 +1,141 @@
+{% extends 'core/base.html' %}
+{% load static custom_filters %}
+
+{% block content %}
+<div class="container">
+    <div class="battle-pass">
+        {% if puntos_pase_pkm > 0 %}
+        <!-- Tabla para el Pase de Batalla Pokémon -->
+        <h4>Pase de Batalla Pokémon</h4>
+        <p>Puntos: {{ puntos_pase_pkm }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover battle-pass-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nivel (Puntos)</th>
+                        {% for i, next_i in puntos_rango %}
+                            <th {% if puntos_pase_pkm >= i and puntos_pase_pkm < next_i %} class="highlight" {% endif %}>
+                                {{ i }}
+                            </th>                        
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="premio">Premio (Pase Normal PKM)</td>
+                        {% for premio in premios_normales_pkm %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td class="premio">Premio (Pase Premium PKM)</td>
+                        {% for premio in premios_premium_pkm %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if puntos_pase_yugioh > 0 %}
+        <!-- Tabla para el Pase de Batalla Yu-Gi-Oh! -->
+        <h4>Pase de Batalla Yu-Gi-Oh!</h4>
+        <p>Puntos: {{ puntos_pase_yugioh }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover battle-pass-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nivel (Puntos)</th>
+                        {% for i, next_i in puntos_rango %}
+                            <th {% if puntos_pase_yugioh >= i and puntos_pase_yugioh < next_i %} class="highlight" {% endif %}>
+                                {{ i }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="premio">Premio (Pase Normal Yu-Gi-Oh!)</td>
+                        {% for premio in premios_normales_yugioh %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td class="premio">Premio (Pase Premium Yu-Gi-Oh!)</td>
+                        {% for premio in premios_premium_yugioh %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if puntos_pase_magic > 0 %}
+        <!-- Tabla para el Pase de Batalla Magic -->
+        <h4>Pase de Batalla Magic</h4>
+        <p>Puntos: {{ puntos_pase_magic }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover battle-pass-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nivel (Puntos)</th>
+                        {% for i, next_i in puntos_rango %}
+                            <th {% if puntos_pase_magic >= i and puntos_pase_magic < next_i %} class="highlight" {% endif %}>
+                                {{ i }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="premio">Premio (Pase Normal Magic)</td>
+                        {% for premio in premios_normales_magic %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td class="premio">Premio (Pase Premium Magic)</td>
+                        {% for premio in premios_premium_magic %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if puntos_pase_heroclix > 0 %}
+        <!-- Tabla para el Pase de Batalla Heroclix -->
+        <h4>Pase de Batalla Heroclix</h4>
+        <p>Puntos: {{ puntos_pase_heroclix }}</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover battle-pass-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nivel (Puntos)</th>
+                        {% for i, next_i in puntos_rango %}
+                            <th {% if puntos_pase_heroclix >= i and puntos_pase_heroclix < next_i %} class="highlight" {% endif %}>
+                                {{ i }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="premio">Premio (Pase Normal Heroclix)</td>
+                        {% for premio in premios_normales_heroclix %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td class="premio">Premio (Pase Premium Heroclix)</td>
+                        {% for premio in premios_premium_heroclix %}
+                            <td>{{ premio }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

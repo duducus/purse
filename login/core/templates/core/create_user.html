@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="text-center mb-4">Añadir Usuario Nuevo</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a href="{% url 'users_list' %}" class="btn btn-link">Volver a lista de usuarios</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Volver al Dashboard</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,449 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Centra el contenido principal */
+}
+
+h3, h4 {
+    font-size: 30px;
+    text-align: center;
+    margin: 10px;
+}
+
+/* Estilos de navegación */
+header {
+    background-color: #f8f8f8;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Alinear los elementos del menú a la derecha */
+}
+
+nav ul li {
+    display: inline-block; /* Mostrar los elementos del menú en línea */
+    margin: 0 10px; /* Espacio entre los elementos del menú */
+}
+
+/* Estilos del contenedor principal */
+.container {
+    display: flex;
+    justify-content: center; /* Centrar el contenedor principal horizontalmente */
+    align-items: flex-start; /* Alinear al inicio verticalmente */
+    padding: 20px; /* Espacio interno del contenedor */
+}
+
+.main-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+}
+
+.sidebar h3 {
+    text-align: center;
+}
+
+.video-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.video-list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.video-list img {
+    width: 120px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Estilos de formularios */
+.login-form {
+    width: 300px; /* Ancho del formulario */
+    margin: 0 auto; /* Centrar horizontalmente */
+    padding: 20px; /* Espacio interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+.login-button {
+    background-color: #d281f1; /* Color de fondo */
+    color: red; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cambio de cursor al pasar el ratón */
+}
+
+.login-button:hover {
+    background-color: #45a049; /* Color de fondo al pasar el ratón */
+}
+
+.form-container {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto; /* Centrar horizontalmente */
+}
+
+.add-intercambio-form {
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.manage-form{
+    align-items: center;
+}
+input,select{
+    width: 60% !important;
+    display: inline !important;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+.form-group {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+.form-control-puntos{
+    width:20% !important; 
+    z-index: 999;
+}
+
+/* Estilos de tablas */
+.table-container {
+    display: inline-block; /* Para que el contenedor ocupe solo el ancho necesario */
+    text-align: center;
+    width: 80%; /* Ajusta el ancho del contenedor según sea necesario */
+    margin-right: 35px;
+}
+
+.table-bordered{
+    width: 100%; 
+    margin-left: 0px;
+}
+
+table {
+    margin: 0 auto; /* Alinea la tabla al centro */
+    margin-bottom: 30px;
+}
+
+.intercambios-page table,
+.ventas-page table{
+    width: 100%; /* La tabla ocupará todo el ancho del contenedor */
+    border-collapse: collapse;
+    margin: 0 auto; /* Centrar la tabla horizontalmente */
+}
+
+.torneos-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: -60px;
+    margin-bottom: 20px;
+}
+.intercambios-page table,
+.ventas-page table,
+.torneos-page table,
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th,
+.intercambios-page td,
+.ventas-page td,
+.torneos-page td {
+    border: 1px solid black;
+}
+
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th,
+.intercambios-page td,
+.ventas-page td,
+.torneos-page td {
+    padding: 8px;
+    text-align: left;
+}
+ 
+.intercambios-page th,
+.ventas-page th,
+.torneos-page th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos de botones */
+button:hover {
+    background-color: #05536a;
+}
+
+table td form {
+    display: flex;
+    align-items: center;
+}
+
+table td form .form-control {
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+table td form button {
+    padding: 5px 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.remove-row {
+    background-color: #dc3545;
+    color: white;
+}
+
+.remove-row:hover {
+    background-color: #c82333;
+}
+
+/* Estilos específicos para la página de torneos */
+.torneos-page .btn {
+    margin: 10px;
+}
+
+.torneos-page .btn-primary {
+    background-color: #1100ff;
+}
+
+.torneos-page .btn-secondary {
+    background-color: #1100ff;
+}
+
+.torneos-page .remove-row {
+    background-color: #000000;
+}
+
+.youtube-playlist-container {
+    width: 33%;
+    margin-top: 20px;
+}
+
+.video-container {
+    width: 100%;
+    max-height: 500px;  /* Reducir la altura del contenedor */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video-item {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.video-thumbnail {
+    width: 120px;
+    height: 90px;
+    margin-right: 10px;
+}
+
+.video-info {
+    flex: 1;
+}
+
+.video-title {
+    font-size: 16px;
+    margin: 0;
+    text-decoration: none;
+    color: black;
+}
+
+.video-title:hover {
+    text-decoration: underline;
+}
+
+.card {
+    box-shadow: 0 47px 127px #E3E7EB;
+    margin-left: -600px;
+    text-align: left;
+    padding: 24px;
+    width: 1200px;
+}
+
+.card_detail {
+    box-shadow: 0 47px 127px #E3E7EB;
+    text-align: left;
+    padding: 24px;
+    width: 1800px;
+}
+
+#barcodeModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+#barcodeContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#closeBtn {
+    color: #aaa;
+    align-self: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#closeBtn:hover,
+#closeBtn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.battle-pass-table th,
+.battle-pass-table td {
+    text-align: center;
+    vertical-align: middle;
+    width: 20px; /* Ancho fijo para todas las columnas */
+}
+
+.battle-pass-table .highlight {
+    background-color: #ffdd57 !important; /* Color de resaltado */
+    font-weight: bold !important;
+    color: black !important; /* Asegúrate de que el texto sea legible sobre el fondo */
+}
+
+.battle-pass-table td {
+    writing-mode: vertical-rl; /* Rotar el texto de los encabezados */
+    transform: rotate(180deg); /* Ajustar la rotación para que sea legible */
+    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+    text-align: center; /* Asegurar que el texto esté centrado */
+}
+
+.battle-pass-table .premio {
+    width: auto; /* Permitir que la primera columna tenga ancho automático */
+    transform: rotate(0deg);
+    writing-mode: horizontal-tb;
+    white-space: break-spaces;
+}
+
+.table td, .table th {
+    padding: 0.25rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.form-container {
+    max-width: 600px; /* Ajusta el ancho máximo del contenedor del formulario */
+    margin: 0 auto; /* Centra el contenedor del formulario */
+    padding: 1rem; /* Agrega un poco de espaciado alrededor del contenedor */
+}
+
+h2 {
+    margin-bottom: 1rem; /* Espaciado debajo del título */
+}
+
+.form-actions {
+    display: block; /* Utiliza flexbox para alinear los botones */
+    flex-direction: column; /* Alinea los botones en una columna */
+    gap: 1rem; /* Espaciado entre los botones */
+}
+
+.btn {
+    width: 60%; /* Asegura que los botones ocupen todo el ancho disponible */
+    text-align: center; /* Centra el texto del botón */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-info{
+    width: 100%
+}
+.mt-3 {
+    margin-top: 1rem; /* Espaciado arriba del botón 'Volver al Dashboard' */
+}
+
+h1 {
+    margin-bottom: 2rem; /* Espacio debajo del título */
+}
+
+.list-group-item {
+    padding: 1rem; /* Espacio dentro de cada elemento de la lista */
+    margin-bottom: 0.5rem; /* Espacio debajo de cada elemento de la lista */
+}
+
+.btn-link {
+    font-size: 1rem; /* Tamaño de fuente del enlace */
+    text-decoration: none; /* Quita el subrayado del enlace */
+}
+
+.form-row{
+    display: table-row;
+}

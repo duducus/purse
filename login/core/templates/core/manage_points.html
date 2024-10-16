@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+<h3>Gestionar Puntos de Batalla</h3>
+<form method="post" class="manage-form">
+    {% csrf_token %}
+    
+        <label for="codigo_usuario">Código del Usuario:</label>
+        <input type="text" name="codigo_usuario" id="codigo_usuario" class="form-control-puntos" placeholder="Ingrese el código del usuario">
+        <label for="puntos_pokemon">Puntos Pokémon:</label>
+        <input type="number" name="puntos_pokemon" id="puntos_pokemon" class="form-control-puntos" value="0">
+        <label for="puntos_yugioh">Puntos Yu-Gi-Oh!:</label>
+        <input type="number" name="puntos_yugioh" id="puntos_yugioh" class="form-control-puntos" value="0">
+        <label for="puntos_magic">Puntos Magic:</label>
+        <input type="number" name="puntos_magic" id="puntos_magic" class="form-control-puntos" value="0">
+        <label for="puntos_heroclix">Puntos Heroclix:</label>
+        <input type="number" id="puntos_heroclix" name="puntos_heroclix" class="form-control-puntos" value="0" />
+        <label for="concepto">Concepto:</label>
+        <input type="text" name="concepto" id="concepto">
+        <br><br>
+    <button type="submit" class="btn btn-primary">Actualizar Puntos</button>
+</form>
+<a href="{% url 'users_list' %}" class="btn btn-secondary">Volver a lista de usuarios</a>
+<a href="{% url 'movimientos_list' %}" class="btn btn-link">Lista de movimientos</a><br>
+</div>
+{% endblock %}

@@ -1,21 +1,21 @@
 {% extends 'core/base.html' %}
 
 {% block content %} 
-
-<h3>LOGIN</h3>
+<div class="container-fluid">
+<h4>LOGIN</h4>
 
 <br> 
 
-<form action="" method="post">
+<form action="" method="post" class="login-form">
 	{% csrf_token %}
 
 	<input type="text" name="username" id="" placeholder="Nombre de Usuario">
 	<br>
 	<input type="password" name="password" id="" placeholder="Contraseña">
 
-	<br>
-	<button type="submit">Iniciar Sesión</button>		
+	<br><br>
+	<button type="submit" class="btn btn-primary">Iniciar Sesión</button>		
 
 </form>
-
+</div>
 {% endblock %}

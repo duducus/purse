@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block content %} 
+<body class="ventas-page">
+    <div class="container-fluid">
+        <h1 class="mb-4">Lista de Todas las Ventas</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Precio Total</th>
+                        <th>Fecha</th>
+                        <th>Pago Efectivo</th>
+                        <th>Pago Puntos</th>
+                        <th>Pago Tarjeta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta.usuario.username }}</td>
+                        <td>{{ venta.descripcion }}</td>
+                        <td>{{ venta.cantidad }}</td>
+                        <td>{{ venta.precio_unitario }}</td>
+                        <td>{{ venta.precio_total }}</td>
+                        <td>{{ venta.fecha }}</td>
+                        <td>{{ venta.pago_efectivo }}</td>
+                        <td>{{ venta.pago_puntos }}</td>
+                        <td>{{ venta.pago_tarjeta }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'agregar_venta' %}" class="btn btn-primary mt-3">Nueva venta</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-link ">Regresar al dashboard</a>
+    </div>
+</body>
+</html>
+
+{% endblock %}
