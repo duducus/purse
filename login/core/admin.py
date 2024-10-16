@@ -7,6 +7,7 @@ import csv
 from io import TextIOWrapper
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.utils.html import format_html
 
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm

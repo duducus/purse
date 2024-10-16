@@ -1,3 +1,4 @@
+<!-- Código HTML actualizado para omitir la cantidad -->
 {% extends 'core/base.html' %}
 
 {% block content %}
@@ -15,19 +16,25 @@
             const codigoUsuarioInput = document.getElementById('codigo-usuario');
             const saldoPuntosInput = document.getElementById('id_pago_puntos');
             const codigoUsuarioHidden = document.getElementById('codigo-usuario-hidden');
+            const cantidadInput = document.getElementById('id_cantidad');  // Campo de cantidad oculto
 
             buscarButton.addEventListener('click', function(event) {
                 event.preventDefault();
                 const codigo = codigoUsuarioInput.value;
-                
+
                 // Realiza la búsqueda del usuario por código
                 fetch(`/ventas/buscar_usuario/${codigo}/`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.usuario_encontrado) {
                             form.style.display = 'block';  // Muestra el formulario completo
-                            saldoPuntosInput.value = data.saldo_regalo;  // Llena el campo de puntos
+                            const saldoRegalo = parseInt(data.saldo_regalo, 10);  // Asegúrate de convertirlo a número
+                            const saldo = parseInt(data.saldo, 10);  // Asegúrate de convertirlo a número
+
+                            const saldoTotal = saldoRegalo + saldo;  // Ahora la suma se hará correctamente
+                            saldoPuntosInput.value = saldoTotal;  // Llena el campo de puntos con el saldo total
                             codigoUsuarioHidden.value = codigo;  // Llena el campo hidden con el código del usuario
+                            cantidadInput.value = 1;  // Establece cantidad por defecto en 1
                             
                             // Ocultar el campo de código de usuario y el botón de búsqueda
                             codigoUsuarioInput.style.display = 'none';
@@ -41,7 +48,6 @@
 
         // Lógica para actualizar totales del pago
         document.addEventListener('DOMContentLoaded', function() {
-            const cantidadInput = document.getElementById('id_cantidad');
             const precioUnitarioInput = document.getElementById('id_precio_unitario');
             const pagoEfectivoInput = document.getElementById('id_pago_efectivo');
             const pagoPuntosInput = document.getElementById('id_pago_puntos');
@@ -51,7 +57,7 @@
             const guardarButton = document.querySelector('button[type="submit"]');
 
             function updateTotals() {
-                const cantidad = parseFloat(cantidadInput.value) || 0;
+                const cantidad = 1;  // Siempre será 1 por defecto
                 const precioUnitario = parseFloat(precioUnitarioInput.value) || 0;
                 const totalPagar = cantidad * precioUnitario;
                 totalPagarSpan.textContent = totalPagar.toFixed(2);
@@ -78,7 +84,6 @@
                 }
             }
 
-            cantidadInput.addEventListener('input', updateTotals);
             precioUnitarioInput.addEventListener('input', updateTotals);
             pagoEfectivoInput.addEventListener('input', updateTotals);
             pagoPuntosInput.addEventListener('input', updateTotals);
@@ -95,17 +100,34 @@
     <!-- Sección de búsqueda de usuario -->
     <div class="mb-4">
         <label for="codigo-usuario">Código de Usuario:</label>
-        <input type="text" id="codigo-usuario" class="form-control" placeholder="Ingrese código de usuario">
+        <input type="text" id="codigo-usuario" class="form-control" placeholder="Ingrese código del usuario">
         <button id="buscar-usuario-btn" class="btn btn-primary mt-2">Buscar Usuario</button>
     </div>
 
     <!-- Formulario completo, inicialmente oculto -->
     <form id="form-venta" method="post" class="needs-validation" novalidaate style="display: none;">
         {% csrf_token %}
-        {{ form.as_p }}
-
+        
         <!-- Campo oculto para el código de usuario -->
         <input type="hidden" id="codigo-usuario-hidden" name="codigo_usuario">
+
+        <!-- Campo de cantidad oculto con valor por defecto 1 -->
+        <input type="hidden" id="id_cantidad" name="cantidad" value="1">
+        
+        <label for="id_descripcion">{{ form.descripcion.label }}</label>
+        {{ form.descripcion }}
+        
+        <label for="id_precio_unitario">Precio</label>
+        {{ form.precio_unitario }}
+    
+        <label for="id_pago_efectivo">Pago en Efectivo:</label>
+        {{ form.pago_efectivo }}
+
+        <label for="id_pago_puntos">Pago con Puntos:</label>
+        {{ form.pago_puntos }}
+    
+        <label for="id_pago_tarjeta">Pago con Tarjeta:</label>
+        {{ form.pago_tarjeta }}
 
         <label>Total a pagar: <span id="total-pagar" class="font-weight-bold">0.00</span></label>
         <label>Total restante: <span id="total-restante" class="font-weight-bold">0.00</span></label>

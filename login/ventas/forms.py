@@ -38,7 +38,7 @@ class VentaForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        cantidad = cleaned_data.get('cantidad', 0)
+        cantidad = cleaned_data.get('cantidad', 1)
         precio_unitario = cleaned_data.get('precio_unitario', 0)
         precio_total = cantidad * precio_unitario
 
