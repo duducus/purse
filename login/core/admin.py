@@ -7,12 +7,13 @@ import csv
 from io import TextIOWrapper
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.utils.html import format_html
 
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    list_display = ['username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix', 'foto']
+    list_display = ['username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix', 'foto', 'pop_ID','konami_ID','correo_arena']
     readonly_fields = ['get_saldo', 'foto_display']  # Asegúrate de que 'foto_display' esté en readonly_fields si solo quieres que se vea y no se edite en el changeform.
 
     fieldsets = (

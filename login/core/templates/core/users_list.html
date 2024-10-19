@@ -19,7 +19,7 @@
 
         <!-- Cuadro de búsqueda -->
             <form method="get" action="{% url 'search_users' %}" class="form">
-                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código o nombre" maxlength="12" required>
+                <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código o nombre" maxlength="12">
                 <button type="submit" class="btn btn-primary" id="searchButton">Buscar</button>
 
             </form>
@@ -30,17 +30,18 @@
                 <tr>
                     <th>Foto</th>
                     <th>Nombre de usuario</th>
+                    <!-- 
                     <th>Correo electrónico</th>
-                    <th>Teléfono</th>
+                    <th>Teléfono</th>-->
                     <th>Saldo</th>
                     <th>Saldo regalo</th>
                     <th>Código</th>
-                    <th>Puntos Pkmn</th>
+                    <!--<th>Puntos Pkmn</th>
                     <th>Puntos Yu-Gi-Oh</th>
                     <th>Puntos Magic</th>
-                    <th>Puntos Heroclix</th>
+                    <th>Puntos Heroclix</th>-->
                     <th>Código de Barras</th>
-                    <th>Acciones</th>
+                    <!--<th>Acciones</th>-->
                 </tr>
             </thead>
             <tbody id="userTableBody">
@@ -54,24 +55,24 @@
                         {% endif %}
                     </td>
                     <td>{{ usuario.username }}</td>
-                    <td>{{ usuario.email }}</td>
-                    <td>{{ usuario.telefono }}</td>
+                    <!--<td>{{ usuario.email }}</td>
+                    <td>{{ usuario.telefono }}</td>-->
                     <td>{{ usuario.saldo }}</td>
                     <td>{{ usuario.saldo_regalo }}</td>
                     <td>{{ usuario.codigo }}</td>
-                    <td>{{ usuario.puntos_pase_pkm }}</td>
+                    <!--<td>{{ usuario.puntos_pase_pkm }}</td>
                     <td>{{ usuario.puntos_pase_yugioh }}</td>
                     <td>{{ usuario.puntos_pase_magic}}</td>
-                    <td>{{ usuario.puntos_pase_heroclix }}</td>
+                    <td>{{ usuario.puntos_pase_heroclix }}</td>-->
                     <td>
                         <button class="btn btn-info" onclick="showBarcode('{{ usuario.id }}')">Barcode</button>
                     </td>
-                    <td>
+                    <!--<td>
                         <form method="post" action="{% url 'delete_user' usuario.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">X</button>
                         </form>
-                    </td>
+                    </td>-->
                 </tr>
                 {% empty %}
                 <tr>
