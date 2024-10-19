@@ -17,8 +17,14 @@ def nuevo_intercambio(request):
     if request.method == 'POST':
         form = IntercambioForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('lista_todos_intercambios')
+            # Guarda el intercambio
+            intercambio = form.save()
+            
+            # Obtiene el código del usuario al que se hizo el intercambio
+            codigo_usuario = form.cleaned_data.get('codigo_usuario')  # Asegúrate de que este sea el nombre correcto del campo en tu formulario
+            
+            # Redirige a la URL de búsqueda con el código del usuario
+            return redirect(f'/usuarios/search/?codigo={codigo_usuario}')
         else:
             messages.error(request, 'Código de usuario no encontrado')
     else:

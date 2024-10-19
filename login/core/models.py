@@ -16,6 +16,9 @@ class CustomUser(AbstractUser):
     telefono = models.CharField(max_length=10, blank=True, null=True) 
     apellidos = models.CharField(max_length=255, blank=True, null=True) 
     foto = models.ImageField(upload_to='user_photos/', blank=True, null=True)
+    pop_ID = models.CharField(max_length=255,blank=True, null=True)
+    konami_ID = models.CharField(max_length=255,blank=True, null=True)
+    correo_arena = models.CharField(max_length=255,blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if self.puntos_pase_pkm < 0:

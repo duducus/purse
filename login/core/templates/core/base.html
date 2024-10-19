@@ -17,15 +17,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                    <!-- 
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Productos</a></li>
+                    -->
                     {% if user.is_authenticated %}
+                     <!-- 
                         <li class="nav-item"><a class="nav-link" href="{% url 'informacion' %}">Información</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pase_batalla' %}">Pase de Batalla</a></li>
+                    -->
                         {% if user.is_staff %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
                         {% endif %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>-->
                         <li class="nav-item"><a class="nav-link" href="{% url 'exit' %}">Salir</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Ingresar</a></li>

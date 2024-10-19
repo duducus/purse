@@ -163,8 +163,9 @@ def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('dashboard')  # Redirige al dashboard u otra vista después de crear el usuario
+            user = form.save()  # Aquí guardamos el formulario y obtenemos el usuario recién creado
+            codigo = user.codigo  # Accedemos al código del usuario recién creado
+            return redirect(f'/usuarios/search/?codigo={codigo}')  # Redirige al dashboard u otra vista después de crear el usuario
     else:
         form = CustomUserCreationForm()
     return render(request, 'core/create_user.html', {'form': form})
@@ -242,23 +243,22 @@ def delete_user(request, user_id):
     return redirect('users_list')  # Redirige a la vista de la lista de usuarios si el método no es POST
 
 def search_users(request):
-    query = request.GET.get('codigo')
-    if query:
+    query = request.GET.get('codigo', '').strip()  # Obtener el código y eliminar espacios en blanco
+
+    if query:  # Si hay un valor en la búsqueda
         try:
             # Búsqueda por código exacto o por coincidencia parcial en el nombre de usuario
             usuarios = CustomUser.objects.filter(
                 Q(codigo=query) | Q(username__icontains=query)
             )
-            if not usuarios.exists():
-                no_results = True
-            else:
-                no_results = False
+            no_results = not usuarios.exists()  # Establece no_results si no hay usuarios
         except ValueError:
-            usuarios = CustomUser.objects.none()
+            usuarios = CustomUser.objects.none()  # No hay resultados
             no_results = True
     else:
-        usuarios = CustomUser.objects.all()
-        no_results = False
+        # Cuando la consulta está vacía, recargamos la página sin filtrar
+        usuarios = CustomUser.objects.all()  # Muestra todos los usuarios
+        no_results = False  # No hay error, solo mostramos la lista completa
 
     return render(request, 'core/users_list.html', {'usuarios': usuarios, 'no_results': no_results})
 

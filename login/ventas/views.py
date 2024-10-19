@@ -5,6 +5,7 @@ from .forms import VentaForm
 from django.http import JsonResponse
 from core.models import CustomUser
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
@@ -53,7 +54,7 @@ def agregar_venta(request):
                 form.add_error('usuario', 'Usuario no encontrado con ese código')
 
             venta.save()
-            return redirect('lista_todas_ventas')
+            return redirect(reverse('dashboard'))
 
     else:
         form = VentaForm()
