@@ -3,6 +3,8 @@
 {% block content %}
 <div class="container-fluid">
     <h1 class="mb-4">Lista de Todos los Intercambios</h1>
+    <a href="{% url 'nuevo_intercambio' %}" class="btn btn-primary mt-3">Nuevo Intercambio</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-dark">
@@ -25,7 +27,6 @@
             </tbody>
         </table>
     </div>
-    <a href="{% url 'nuevo_intercambio' %}" class="btn btn-primary mt-3">Nuevo Intercambio</a>
-    <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
+
 </div>
 {% endblock %}
