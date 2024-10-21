@@ -16,11 +16,15 @@ class IntercambioForm(forms.ModelForm):
             usuario = CustomUser.objects.get(codigo=codigo)
         except CustomUser.DoesNotExist:
             raise forms.ValidationError('Usuario no encontrado')
-        return usuario
+        
+        # Guarda el usuario para usarlo más tarde en el método save()
+        self._usuario = usuario
+        return codigo  # Retorna el código, como necesitas para la redirección
 
     def save(self, commit=True):
+        # Guarda el intercambio con el usuario previamente validado
         intercambio = super().save(commit=False)
-        intercambio.usuario = self.cleaned_data['codigo_usuario']
+        intercambio.usuario = self._usuario  # Usa el usuario almacenado en clean_codigo_usuario
         if commit:
             intercambio.save()
         return intercambio
