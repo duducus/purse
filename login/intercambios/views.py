@@ -22,7 +22,7 @@ def nuevo_intercambio(request):
             
             # Obtiene el código del usuario al que se hizo el intercambio
             codigo_usuario = form.cleaned_data.get('codigo_usuario')  # Asegúrate de que este sea el nombre correcto del campo en tu formulario
-            
+            print(codigo_usuario)
             # Redirige a la URL de búsqueda con el código del usuario
             return redirect(f'/usuarios/search/?codigo={codigo_usuario}')
         else:
