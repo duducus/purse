@@ -1,7 +1,7 @@
 # core/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 from torneos.models import InscripcionTorneo
 from intercambios.models import Intercambio
 from django.db.models import Q
@@ -15,8 +15,18 @@ from django.db.models import CharField, Value
 from django.db.models.functions import Lower
 from django.contrib import messages
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/dashboard/')  # Redirigir manualmente al dashboard
+    
 @login_required
 def home(request):
+    """
     saldo = request.user.saldo if request.user.is_authenticated else 0
     saldo_regalo = request.user.saldo_regalo if request.user.is_authenticated else 0
     puntos_pase_pkm = request.user.puntos_pase_pkm if request.user.is_authenticated else 0
@@ -31,7 +41,10 @@ def home(request):
         'puntos_pase_magic': puntos_pase_magic,
         'puntos_pase_heroclix': puntos_pase_heroclix
     })
-
+    """
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Redirige al dashboard si el usuario está autenticado
+    return render(request, 'core/home.html')
 @login_required
 def informacion(request):
     torneos_usuario = []
