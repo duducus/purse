@@ -6,11 +6,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('login/', LoginView.as_view(redirect_authenticated_user=True, next_page='/dashboard/'), name='login'), 
+    path('dashboard/', views.dashboard, name= 'dashboard'),
     path('', views.home, name='home'),
     path('products/', views.products, name='products'),
     path('exit/', views.exit, name='exit'),
-    path('login/', LoginView.as_view(), name='login'), 
-    path('dashboard/', views.dashboard, name= 'dashboard'),
     path('nuevo/', views.create_user, name='create_user'),
     path('usuarios/', views.users_list, name='users_list'), 
     path('informacion/', views.informacion, name='informacion'),
@@ -21,7 +21,6 @@ urlpatterns = [
     path('usuarios/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     path('usuarios/search/', views.search_users, name='search_users'),
     path('buscar_usuario/', views.buscar_usuario, name='buscar_usuario'),
-
 ]
 
 if settings.DEBUG:
