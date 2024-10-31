@@ -14,7 +14,7 @@
     <div class="container-fluid">
         <h2 class="mb-4">Lista de Usuarios</h2>
         <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
-        <a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a>
+        <!--<a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a> -->
         <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
 
         <!-- Cuadro de búsqueda -->
@@ -28,13 +28,16 @@
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Foto</th>
+                    <!--<th>Foto</th>-->
                     <th>Nombre de usuario</th>
                     <!-- 
                     <th>Correo electrónico</th>
                     <th>Teléfono</th>-->
                     <th>Saldo</th>
                     <th>Saldo regalo</th>
+                    <th>Pop ID</th>
+                    <th>Konami ID</th>
+                    <th>Correo arena</th>
                     <th>Código</th>
                     <!--<th>Puntos Pkmn</th>
                     <th>Puntos Yu-Gi-Oh</th>
@@ -47,18 +50,21 @@
             <tbody id="userTableBody">
                 {% for usuario in usuarios %}
                 <tr data-user-id="{{ usuario.id }}">
-                    <td>
+                    <!--<td>
                         {% if usuario.foto %}
                         <img src="{{ usuario.foto.url }}" alt="Foto de {{ usuario.username }}" width="50" height="50">
                         {% else %}
                         <span>Sin foto</span>
                         {% endif %}
-                    </td>
+                    </td>-->
                     <td>{{ usuario.username }}</td>
                     <!--<td>{{ usuario.email }}</td>
                     <td>{{ usuario.telefono }}</td>-->
                     <td>{{ usuario.saldo }}</td>
                     <td>{{ usuario.saldo_regalo }}</td>
+                    <td>{{ usuario.pop_ID }}</td>
+                    <td>{{ usuario.konami_ID }}</td>
+                    <td>{{ usuario.correo_arena }}</td>
                     <td>{{ usuario.codigo }}</td>
                     <!--<td>{{ usuario.puntos_pase_pkm }}</td>
                     <td>{{ usuario.puntos_pase_yugioh }}</td>

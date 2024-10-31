@@ -3,6 +3,7 @@ from django.db import models
 from decimal import Decimal, ROUND_HALF_UP, ROUND_UP
 import math
 from django.db import transaction
+from django.utils import timezone
 
 class Torneo(models.Model):
     JUEGOS_CHOICES = [
@@ -13,11 +14,10 @@ class Torneo(models.Model):
     ]
 
     nombre = models.CharField(max_length=100)
-    fecha_inicio = models.DateField()
+    fecha_inicio = models.DateField(default=timezone.now)
     juego = models.CharField(max_length=20, choices=JUEGOS_CHOICES)
     lambda_value = models.DecimalField(max_digits=5, decimal_places=3, default=0.3)
     comision = models.DecimalField(max_digits=4, decimal_places=2, default=0.15)
-
     def __str__(self):
         return self.nombre
 

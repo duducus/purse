@@ -12,7 +12,7 @@
                     <th>Nombre</th>
                     <th>Fecha de inicio</th>
                     <th>Juego</th>
-                    <th>Acciones</th>
+                    <!--<th>Acciones</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -21,9 +21,9 @@
                     <td><a href="{% url 'torneo_detail' torneo.pk %}">{{ torneo.nombre }}</a></td>
                     <td>{{ torneo.fecha_inicio }}</td>
                     <td>{{ torneo.juego }}</td>
-                    <td>
+                    <!--<td>
                         <a href="{% url 'eliminar_torneo' torneo.pk %}" class="btn btn-danger btn-sm">X</a>
-                    </td>
+                    </td>-->
                 </tr>
                 {% endfor %}
             </tbody>
