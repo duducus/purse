@@ -5,6 +5,8 @@ from .forms import TorneoForm, InscripcionTorneoForm
 from django.forms import modelformset_factory
 from core.models import CustomUser
 from django.http import JsonResponse
+from django.utils import timezone
+
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def lista_torneos(request):
@@ -40,13 +42,16 @@ def torneo_detail(request, pk):
         'form': form,
         'ganancias_torneos': ganancias_torneos,
     })
+
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def crear_torneo(request):
     InscripcionFormSet = modelformset_factory(InscripcionTorneo, form=InscripcionTorneoForm, extra=1)
+    
     if request.method == 'POST':
         torneo_form = TorneoForm(request.POST)
         inscripcion_formset = InscripcionFormSet(request.POST, queryset=InscripcionTorneo.objects.none())
+        
         if torneo_form.is_valid() and inscripcion_formset.is_valid():
             torneo = torneo_form.save()
             for form in inscripcion_formset:
@@ -73,10 +78,13 @@ def crear_torneo(request):
                     
             return redirect('torneo_list')
         else:
-            print(torneo_form.errors)  # Para depurar errores de validación
-            print(inscripcion_formset.errors)  # Para depurar errores de validación
+            print(torneo_form.errors)
+            print(inscripcion_formset.errors)
+    
     else:
-        torneo_form = TorneoForm()
+        # Convertir la fecha a 'YYYY-MM-DD'
+        fecha_actual = timezone.now().date().strftime('%Y-%m-%d')
+        torneo_form = TorneoForm(initial={'fecha_inicio': fecha_actual})
         inscripcion_formset = InscripcionFormSet(queryset=InscripcionTorneo.objects.none())
 
     return render(request, 'torneos/crear_torneo.html', {

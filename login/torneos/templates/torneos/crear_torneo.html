@@ -21,7 +21,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Código del Jugador</th>
-                    <th>Nombre del Jugador</th> <!-- Columna añadida -->
+                    <th>Nombre del Jugador</th>
                     <th>Entrada</th>
                     <th>Posición</th>
                     <th>Acciones</th>
@@ -35,7 +35,7 @@
                             {{ form.jugador_codigo }}
                         </td>
                         <td>
-                            <span class="player-name">No se ha ingresado</span> <!-- Campo para el nombre del jugador -->
+                            <span class="player-name">No se ha ingresado</span>
                         </td>
                         <td>{{ form.entrada }}</td>
                         <td>{{ form.posicion }}</td>
@@ -64,7 +64,6 @@
 </div>
 
 <script>
-    // Este código está en tu template de crear torneo en la aplicación torneos
 document.addEventListener('DOMContentLoaded', function() {
     const addRowButton = document.getElementById('add-row');
     const tableBody = document.querySelector('#inscripciones-table tbody');
@@ -80,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = input.id.replace(/-\d+-/, `-${formIndex}-`);
             input.name = name;
             input.id = id;
-            input.value = ''; // Limpiar el valor del campo de entrada
+            input.value = ''; 
         });
         tableBody.appendChild(newRow);
         formIndex++;

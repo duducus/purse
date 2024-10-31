@@ -13,19 +13,28 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
-    list_display = ['username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix', 'foto', 'pop_ID','konami_ID','correo_arena']
-    readonly_fields = ['get_saldo', 'foto_display']  # Asegúrate de que 'foto_display' esté en readonly_fields si solo quieres que se vea y no se edite en el changeform.
+    list_display = [
+        'username', 'apellidos', 'email', 'telefono', 'saldo', 'saldo_regalo', 'codigo', 
+        'puntos_pase_pkm', 'puntos_pase_yugioh', 'puntos_pase_magic', 'puntos_pase_heroclix', 
+        'foto', 'pop_ID', 'konami_ID', 'correo_arena'
+    ]
+    readonly_fields = ['get_saldo', 'foto_display']
 
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('email', 'telefono', 'saldo', 'saldo_regalo', 'foto', 'foto_display')}),  # Aquí añades el campo foto
+        ('Personal info', {
+            'fields': (
+                'email', 'telefono', 'saldo', 'saldo_regalo', 'foto', 'foto_display', 
+                'pop_ID', 'konami_ID', 'correo_arena'
+            )
+        }),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'apellidos', 'email', 'telefono', 'password1', 'password2', 'saldo'),
+            'fields': ('username', 'apellidos', 'email', 'telefono', 'password1', 'password2', 'saldo', 'pop_ID', 'konami_ID', 'correo_arena'),
         }),
     )
 
@@ -41,7 +50,6 @@ class CustomUserAdmin(UserAdmin):
 
     get_saldo.short_description = 'Saldo'
 
-
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
@@ -55,24 +63,21 @@ class CustomUserAdmin(UserAdmin):
             if not csv_file.name.endswith('.csv'):
                 messages.error(request, "El archivo debe ser un CSV.")
                 return redirect("admin:bulk_upload")
-            
+
             try:
                 data = TextIOWrapper(csv_file.file, encoding='utf-8-sig')
                 reader = csv.DictReader(data)
                 
-                # Imprimir encabezados para ver qué está leyendo
-                headers = reader.fieldnames
-                print("Encabezados del CSV:", headers)
-                
                 for row in reader:
-                    print("Fila leída:", row)  # Para ver el contenido de cada fila
-                    
                     user = CustomUser(
                         username=row['username'],
                         apellidos=row['apellidos'],
                         email=row['email'],
                         telefono=row['telefono'],
-                        saldo=row.get('saldo', 0)  # Usar .get() para evitar errores si falta el campo
+                        saldo=row.get('saldo', 0),
+                        pop_ID=row.get('pop_ID', ''),
+                        konami_ID=row.get('konami_ID', ''),
+                        correo_arena=row.get('correo_arena', '')
                     )
                     user.set_password(row['password1'])
                     user.save()

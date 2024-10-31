@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-9rc-4cwh0h3mvufrf9%myh7xp293to&$(jua7b^!neuj8ku$3e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','74.208.60.39']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','74.208.60.39','www.localgamestore.store']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
