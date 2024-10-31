@@ -27,7 +27,11 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'pase_batalla' %}">Pase de Batalla</a></li>
                     -->
                         {% if user.is_staff %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <!--<li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>-->
+                            <li class="nav-item"><a class="nav-link" href="{% url 'lista_todos_intercambios' %}">Intercambios</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'torneo_list' %}"> Torneos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'lista_todas_ventas' %}"> Ventas</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'users_list' %}" > Usuarios</a></li>
                         {% endif %}
                         <!-- <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>-->
                         <li class="nav-item"><a class="nav-link" href="{% url 'exit' %}">Salir</a></li>

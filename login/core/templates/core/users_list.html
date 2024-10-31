@@ -13,10 +13,9 @@
 <body>
     <div class="container-fluid">
         <h2 class="mb-4">Lista de Usuarios</h2>
-        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a>
+        <a href="{% url 'create_user' %}" class="btn btn-primary">Crear usuario nuevo</a> <br><br>
         <!--<a href="{% url 'manage_points' %}" class="btn btn-secondary">Administrar Puntos</a> -->
-        <a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>
-
+        <!--<a href="{% url 'dashboard' %}" class="btn btn-link">Regresar al dashboard</a>-->
         <!-- Cuadro de búsqueda -->
             <form method="get" action="{% url 'search_users' %}" class="form">
                 <input type="text" name="codigo" id="searchCodigo" class="form-control" placeholder="Buscar por código o nombre" maxlength="12">

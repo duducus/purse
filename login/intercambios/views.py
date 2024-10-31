@@ -33,5 +33,5 @@ def nuevo_intercambio(request):
 
 @login_required
 def lista_todos_intercambios(request):
-    intercambios = Intercambio.objects.all()
+    intercambios = Intercambio.objects.all().order_by('-fecha')
     return render(request, 'intercambios/lista_todos_intercambios.html', {'intercambios': intercambios})
