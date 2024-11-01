@@ -16,6 +16,7 @@ class TorneoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Configura la fecha inicial como la fecha actual
+        
         if 'initial' not in kwargs:
             kwargs['initial'] = {}
         kwargs['initial']['fecha_inicio'] = timezone.now().date()

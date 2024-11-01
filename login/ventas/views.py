@@ -10,7 +10,7 @@ from django.urls import reverse
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def lista_todas_ventas(request):
-    ventas = Venta.objects.all()
+    ventas = Venta.objects.all().order_by('-fecha')
     return render(request, 'ventas/lista_todas_ventas.html', {'ventas': ventas})
 
 @login_required
@@ -42,7 +42,6 @@ def agregar_venta(request):
                         print(f'Saldo de regalo: {usuario.saldo_regalo}') 
                         usuario.saldo_regalo -= pago_puntos
                     else:
-                        
                         puntos_restantes = pago_puntos - usuario.saldo_regalo
                         usuario.saldo_regalo = 0
                         print(f'Puntos restantes: {puntos_restantes}') 
@@ -54,12 +53,15 @@ def agregar_venta(request):
                 form.add_error('usuario', 'Usuario no encontrado con ese código')
 
             venta.save()
-            return redirect(reverse('dashboard'))
+
+            # Redirige a la lista de usuarios con el código en la URL
+            return redirect(f'/usuarios/search/?codigo={codigo_usuario}')
 
     else:
         form = VentaForm()
 
     return render(request, 'ventas/agregar_venta.html', {'form': form})
+
 
 # Función para buscar usuario y traer ambos saldos: saldo y saldo_regalo
 def buscar_usuario(request, codigo):
