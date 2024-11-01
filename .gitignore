@@ -1,2 +1,3 @@
 login/db_dev.sqlite3
 login/db_prod.sqlite3
+*.pyc
