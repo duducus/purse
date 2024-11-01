@@ -10,7 +10,7 @@ from django.utils import timezone
 @login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/unauthorized/')
 def lista_torneos(request):
-    torneos = Torneo.objects.all()
+    torneos = Torneo.objects.all().order_by('-fecha_inicio')
     return render(request, 'torneos/lista_torneos.html', {'torneos': torneos})
 
 @login_required
@@ -62,7 +62,9 @@ def crear_torneo(request):
                         inscripcion.jugador = jugador
                     inscripcion.torneo = torneo
                     inscripcion.save()
-                    
+                    # Llamar a save() nuevamente para actualizar el premio calculado
+                    inscripcion.save()
+
                     # Actualizar los puntos del pase de batalla
                     juego = torneo.juego
                     puntos_a_sumar = 10
@@ -82,7 +84,6 @@ def crear_torneo(request):
             print(inscripcion_formset.errors)
     
     else:
-        # Convertir la fecha a 'YYYY-MM-DD'
         fecha_actual = timezone.now().date().strftime('%Y-%m-%d')
         torneo_form = TorneoForm(initial={'fecha_inicio': fecha_actual})
         inscripcion_formset = InscripcionFormSet(queryset=InscripcionTorneo.objects.none())
@@ -91,6 +92,7 @@ def crear_torneo(request):
         'torneo_form': torneo_form,
         'inscripcion_formset': inscripcion_formset,
     })
+
 
 def search_users_torneo(request):
     codigo = request.GET.get('codigo')

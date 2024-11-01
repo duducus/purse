@@ -3,7 +3,7 @@ from .models import Torneo, InscripcionTorneo
 
 class InscripcionTorneoInline(admin.TabularInline):
     model = InscripcionTorneo
-    extra = 1
+    extra = 0
 
 class TorneoAdmin(admin.ModelAdmin):
     inlines = [InscripcionTorneoInline]

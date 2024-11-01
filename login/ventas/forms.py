@@ -3,8 +3,6 @@ from .models import Venta
 from core.models import CustomUser
 
 class VentaForm(forms.ModelForm):
-
-
     class Meta:
         model = Venta
         exclude = ['usuario_codigo']  # Excluye el campo de código de usuario
