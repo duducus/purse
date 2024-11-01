@@ -43,8 +43,9 @@ def home(request):
     })
     """
     if request.user.is_authenticated:
-        return redirect('dashboard')  # Redirige al dashboard si el usuario está autenticado
+        return redirect('users_list')  # Redirige al dashboard si el usuario está autenticado
     return render(request, 'core/home.html')
+
 @login_required
 def informacion(request):
     torneos_usuario = []
