@@ -24,7 +24,7 @@
                     <th>Nombre del Jugador</th>
                     <th>Entrada</th>
                     <th>Posición</th>
-                    <th>Acciones</th>
+                    <th>Eliminar </th>
                 </tr>
             </thead>
             <tbody>
@@ -39,8 +39,9 @@
                         </td>
                         <td>{{ form.entrada }}</td>
                         <td>{{ form.posicion }}</td>
+                        
                         <td>
-                            <button type="button" class="btn btn-secondary remove-row">Eliminar</button>
+                            <button type="button" class="btn btn-secondary remove-row">X</button>
                         </td>
                     </tr>
                 {% endfor %}

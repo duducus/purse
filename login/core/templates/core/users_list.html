@@ -61,10 +61,23 @@
                     <td>{{ usuario.telefono }}</td>-->
                     <td>{{ usuario.saldo }}</td>
                     <td>{{ usuario.saldo_regalo }}</td>
-                    <td>{{ usuario.pop_ID }}</td>
-                    <td>{{ usuario.konami_ID }}</td>
-                    <td>{{ usuario.correo_arena }}</td>
-                    <td>{{ usuario.codigo }}</td>
+                    <td>
+                        <span id="pop_ID_{{ usuario.id }}">{{ usuario.pop_ID }}</span>
+                        <button onclick="copyToClipboard('pop_ID_{{ usuario.id }}')" class="copy-button" title="Copiar al portapapeles">📋</button>
+                    </td>
+                    <td>
+                        <span id="konami_ID_{{ usuario.id }}">{{ usuario.konami_ID }}</span>
+                        <button onclick="copyToClipboard('konami_ID_{{ usuario.id }}')" class="copy-button" title="Copiar al portapapeles">📋</button>
+                    </td>
+                    <td>
+                        <span id="correo_arena_{{ usuario.id }}">{{ usuario.correo_arena }}</span>
+                        <button onclick="copyToClipboard('correo_arena_{{ usuario.id }}')" class="copy-button" title="Copiar al portapapeles">📋</button>
+                    </td>
+                    <td>
+                        <span id="codigo_{{ usuario.id }}">{{ usuario.codigo }}</span>
+                        <button onclick="copyToClipboard('codigo_{{ usuario.id }}')" class="copy-button" title="Copiar al portapapeles">📋</button>
+                    </td>
+                                    
                     <!--<td>{{ usuario.puntos_pase_pkm }}</td>
                     <td>{{ usuario.puntos_pase_yugioh }}</td>
                     <td>{{ usuario.puntos_pase_magic}}</td>
@@ -137,6 +150,10 @@
             var searchButton = document.getElementById("searchButton");
             
         });
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text);
+        }
     </script>
 </body>
 </html>

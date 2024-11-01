@@ -127,6 +127,35 @@ input,select{
     margin-bottom: 1rem;
     text-align: justify;
 }
+
+.copy-button {
+    border: none;
+    background: none;
+    font-size: 0.8em; /* Tamaño pequeño */
+    cursor: pointer;
+    color: #888; /* Color gris claro */
+    margin-left: 5px; /* Espacio entre el texto y el icono */
+    padding: 0;
+}
+
+.copy-button:hover {
+    color: #555; /* Color más oscuro al pasar el mouse */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="decimal"]::-webkit-outer-spin-button,
+input[type="decimal"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ocultar flechas en Firefox */
+input[type="number"],
+input[type="decimal"] {
+    -moz-appearance: textfield;
+}
+
 .form-group input,
 .form-group select {
     width: 100%;

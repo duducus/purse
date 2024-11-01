@@ -113,6 +113,31 @@ label {
 .manage-form{
     align-items: center;
 }
+
+.copy-button {
+    border: none;
+    background: none;
+    font-size: 0.8em; /* Tamaño pequeño */
+    cursor: pointer;
+    color: #888; /* Color gris claro */
+    margin-left: 5px; /* Espacio entre el texto y el icono */
+    padding: 0;
+}
+
+.copy-button:hover {
+    color: #555; /* Color más oscuro al pasar el mouse */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 input,select{
     width: 60% !important;
     display: inline !important;
