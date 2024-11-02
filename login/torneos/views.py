@@ -62,9 +62,7 @@ def crear_torneo(request):
                         inscripcion.jugador = jugador
                     inscripcion.torneo = torneo
                     inscripcion.save()
-                    # Llamar a save() nuevamente para actualizar el premio calculado
-                    inscripcion.save()
-
+                    
                     # Actualizar los puntos del pase de batalla
                     juego = torneo.juego
                     puntos_a_sumar = 10

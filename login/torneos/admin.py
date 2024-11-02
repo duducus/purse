@@ -4,6 +4,10 @@ from .models import Torneo, InscripcionTorneo
 class InscripcionTorneoInline(admin.TabularInline):
     model = InscripcionTorneo
     extra = 0
+    readonly_fields = ('premio_calculado',)  # Mostrar el cálculo en lugar del premio guardado
+
+    def premio_calculado(self, instance):
+        return instance.premio_calculado  # Uso directo de la propiedad para consistencia
 
 class TorneoAdmin(admin.ModelAdmin):
     inlines = [InscripcionTorneoInline]
