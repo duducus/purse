@@ -75,7 +75,10 @@ def crear_torneo(request):
                     elif juego == 'heroclix':
                         inscripcion.jugador.puntos_pase_heroclix += puntos_a_sumar
                     inscripcion.jugador.save()
-                    
+
+            # Calcula los premios y actualiza los saldos
+            actualizar_saldos(torneo)
+            
             return redirect('torneo_list')
         else:
             print(torneo_form.errors)
@@ -119,3 +122,26 @@ def eliminar_torneo(request, pk):
         torneo.delete()
         return redirect('torneo_list')
     return render(request, 'torneos/eliminar_torneo.html', {'torneo': torneo})
+
+def actualizar_saldos(torneo):
+    inscripciones = torneo.inscripciones_torneo.all()
+    for inscripcion in inscripciones:
+        # Calcula el premio
+        inscripcion.premio = inscripcion.premio_calculado
+        inscripcion.save()
+
+        jugador = inscripcion.jugador
+        premio = inscripcion.premio
+
+        if premio > 0:
+            # Ajusta los saldos como se indicó previamente
+            if jugador.saldo < 0:
+                deficit = abs(jugador.saldo)
+                if premio >= deficit:
+                    jugador.saldo = 0
+                    jugador.saldo_regalo += (premio - deficit)
+                else:
+                    jugador.saldo += premio
+            else:
+                jugador.saldo_regalo += premio
+            jugador.save()
