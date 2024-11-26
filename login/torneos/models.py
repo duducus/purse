@@ -43,12 +43,14 @@ class InscripcionTorneo(models.Model):
             return Decimal('0.000000')
 
         factor_x_value = probabilidad * (Decimal(self.entrada) / (total_entradas / total_participantes))
+        #print("factor x = ", factor_x_value.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP))
         return factor_x_value.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
 
     @property
     def porcentaje(self):
         total_factor_x = sum([inscripcion.factor_x for inscripcion in self.torneo.inscripciones_torneo.all()]) or Decimal('1')
         porcentaje_value = (self.factor_x / total_factor_x) * Decimal('100')
+        #print("porcentaje ", porcentaje_value.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
         return porcentaje_value.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
     @property
@@ -62,34 +64,32 @@ class InscripcionTorneo(models.Model):
         premio_calculado_value = (self.porcentaje * total_entradas * (1 - comision)) / Decimal('100')
         premio_calculado_value = premio_calculado_value.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         premio_calculado_value = premio_calculado_value.quantize(Decimal('1'), rounding=ROUND_UP)
+        #print("premio = ", premio_calculado_value)
         return premio_calculado_value
 
     def save(self, *args, **kwargs):
         self.premio = self.premio_calculado
-        with transaction.atomic():
-            super().save(*args, **kwargs)
-            
-            # Lógica para ajustar el saldo y saldo_regalo
-            premio = self.premio_calculado
-            jugador = self.jugador
+        super().save(*args, **kwargs)
 
-            if premio > 0:
-                # Primero verificamos si el saldo es negativo
-                if jugador.saldo < 0:
-                    # Calculamos cuánto se necesita para llevar el saldo a 0
-                    deficit = abs(jugador.saldo)
+    @staticmethod
+    def ajustar_saldo(jugador, premio):
+        if premio > 0:
+            if jugador.saldo < 0:
+                deficit = abs(jugador.saldo)
 
-                    if premio >= deficit:
-                        # Si el premio es mayor o igual al déficit, llevamos el saldo a 0
-                        jugador.saldo = 0
-                        # Lo que sobra se suma a saldo_regalo
-                        jugador.saldo_regalo += (premio - deficit)
-                    else:
-                        # Si el premio no cubre todo el déficit, simplemente sumamos al saldo
-                        jugador.saldo += premio
+                if premio >= deficit:
+                    jugador.saldo = 0
+                    jugador.saldo_regalo += (premio - deficit)
                 else:
-                    # Si el saldo es 0 o mayor, sumamos directamente a saldo_regalo
-                    jugador.saldo_regalo += premio
+                    jugador.saldo += premio
+            else:
+                jugador.saldo_regalo += premio
 
-                # Guardamos los cambios del jugador
-                jugador.save()
+            jugador.save()
+
+    @classmethod
+    def actualizar_saldos(cls):
+        # Aquí calculamos todos los premios y luego ajustamos los saldos
+        for inscripcion in cls.objects.all():
+            premio = inscripcion.premio_calculado
+            cls.ajustar_saldo(inscripcion.jugador, premio)
