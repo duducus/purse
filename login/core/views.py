@@ -309,3 +309,15 @@ def buy_list(request):
         'productos_yu_gi_oh': productos_yu_gi_oh,
         'productos_magic': productos_magic,
     })
+
+# Vista para la lista de productos
+def buy_list(request):
+    productos_pokemon = Producto.objects.filter(tag='pokemon')
+    productos_yu_gi_oh = Producto.objects.filter(tag='yu_gi_oh')
+    productos_magic = Producto.objects.filter(tag='magic')
+
+    return render(request, 'core/buy_list2.html', {
+        'productos_pokemon': productos_pokemon,
+        'productos_yu_gi_oh': productos_yu_gi_oh,
+        'productos_magic': productos_magic,
+    })

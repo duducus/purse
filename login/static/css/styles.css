@@ -32,7 +32,7 @@ nav ul li {
 
 /* Estilos del contenedor principal */
 .container {
-    display: flex;
+    display: block;
     justify-content: center; /* Centrar el contenedor principal horizontalmente */
     align-items: flex-start; /* Alinear al inicio verticalmente */
     padding: 20px; /* Espacio interno del contenedor */
@@ -361,7 +361,7 @@ table td form button {
 }
 
 .product-card img {
-    max-height: 70%;
+    max-height: 100%;
     object-fit: cover;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
