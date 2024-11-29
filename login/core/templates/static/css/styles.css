@@ -32,7 +32,7 @@ nav ul li {
 
 /* Estilos del contenedor principal */
 .container {
-    display: flex;
+    display: block;
     justify-content: center; /* Centrar el contenedor principal horizontalmente */
     align-items: flex-start; /* Alinear al inicio verticalmente */
     padding: 20px; /* Espacio interno del contenedor */
@@ -334,12 +334,52 @@ table td form button {
     text-decoration: underline;
 }
 
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 50px;
+    padding: 20px;
+}
+
+.product-card {
+    width: 100%;
+    height: 500px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.product-card img {
+    max-height: 70%;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.product-card h4 {
+    margin: 10px 0;
+    font-size: 1.25rem;
+}
+
+.product-card p {
+    font-size: 1rem;
+    color: #333;
+}
+
 .card {
     box-shadow: 0 47px 127px #E3E7EB;
     margin-left: -600px;
     text-align: left;
     padding: 24px;
-    width: 1200px;
+    width: 300px;
+    height: 500px;
 }
 
 .card_detail {

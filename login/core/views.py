@@ -5,8 +5,8 @@ from django.contrib.auth import logout, authenticate, login
 from torneos.models import InscripcionTorneo
 from intercambios.models import Intercambio
 from django.db.models import Q
-from .models import CustomUser, Movimiento
-from .forms import CustomUserCreationForm
+from .models import CustomUser, Movimiento, Producto
+from .forms import CustomUserCreationForm, ProductoForm
 from barcode import Code128
 from barcode.writer import ImageWriter
 from django.http import HttpResponse, JsonResponse
@@ -285,3 +285,27 @@ def buscar_usuario(request):
         except CustomUser.DoesNotExist:
             return JsonResponse({'nombre': None})
     return JsonResponse({'nombre': None})
+
+# Vista para agregar producto
+def agregar_producto(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('buy_list')
+    else:
+        form = ProductoForm()
+    
+    return render(request, 'core/agregar_producto.html', {'form': form})
+
+# Vista para la lista de productos
+def buy_list(request):
+    productos_pokemon = Producto.objects.filter(tag='pokemon')
+    productos_yu_gi_oh = Producto.objects.filter(tag='yu_gi_oh')
+    productos_magic = Producto.objects.filter(tag='magic')
+
+    return render(request, 'core/buy_list.html', {
+        'productos_pokemon': productos_pokemon,
+        'productos_yu_gi_oh': productos_yu_gi_oh,
+        'productos_magic': productos_magic,
+    })

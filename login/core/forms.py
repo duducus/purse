@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, Producto
 from django import forms
 from django.utils.crypto import get_random_string  # Para generar una contraseña aleatoria
 
@@ -26,3 +26,8 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
         fields = ('username', 'apellidos', 'email', 'telefono', 'password', 'saldo','foto')
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = ['nombre', 'imagen', 'precio', 'tag']

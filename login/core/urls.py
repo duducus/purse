@@ -21,6 +21,8 @@ urlpatterns = [
     path('usuarios/delete/<int:user_id>/', views.delete_user, name='delete_user'),
     path('usuarios/search/', views.search_users, name='search_users'),
     path('buscar_usuario/', views.buscar_usuario, name='buscar_usuario'),
+    path('agregar_producto/', views.agregar_producto, name='agregar_producto'),
+    path('buy_list/', views.buy_list, name='buy_list'),
 ]
 
 if settings.DEBUG:
