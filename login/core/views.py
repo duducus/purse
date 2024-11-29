@@ -311,7 +311,7 @@ def buy_list(request):
     })
 
 # Vista para la lista de productos
-def buy_list(request):
+def buy_list2(request):
     productos_pokemon = Producto.objects.filter(tag='pokemon')
     productos_yu_gi_oh = Producto.objects.filter(tag='yu_gi_oh')
     productos_magic = Producto.objects.filter(tag='magic')

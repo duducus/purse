@@ -23,7 +23,7 @@ urlpatterns = [
     path('buscar_usuario/', views.buscar_usuario, name='buscar_usuario'),
     path('agregar_producto/', views.agregar_producto, name='agregar_producto'),
     path('buy_list/', views.buy_list, name='buy_list'),
-    path('buylist/', views.buy_list, name='buy_list2'),
+    path('buylist/', views.buy_list2, name='buy_list2'),
 ]
 
 if settings.DEBUG:
