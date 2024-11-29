@@ -1,0 +1,85 @@
+<!-- core/templates/core/base.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Aplicación</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% load static %}
+    {% block content %}
+    <main class>
+      <h2>Buy list</h2>
+    <div class="container mt-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#pokemon">Pokémon</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#yu_gi_oh">Yu-Gi-Oh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#magic">Magic</a>
+            </li>
+        </ul>
+    
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="pokemon">
+                <div class="product-grid">
+                    {% for producto in productos_pokemon %}
+                    <div class="product-card">
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                        <h4>{{ producto.nombre }}</h4>
+                        <p>Precio: ${{ producto.precio }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="yu_gi_oh">
+                <div class="product-grid">
+                    {% for producto in productos_yu_gi_oh %}
+                    <div class="product-card">
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                        <h4>{{ producto.nombre }}</h4>
+                        <p>Precio: ${{ producto.precio }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="magic">
+                <div class="product-grid">
+                    {% for producto in productos_magic %}
+                    <div class="product-card">
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                        <h4>{{ producto.nombre }}</h4>
+                        <p>Precio: ${{ producto.precio }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </main>
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[type="number"], input[type="decimal"]').forEach(function(input) {
+            input.style.webkitAppearance = 'none';
+            input.style.mozAppearance = 'textfield';
+        });
+    });
+</script>
+
+</html>
+
