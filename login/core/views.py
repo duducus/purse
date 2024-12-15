@@ -321,3 +321,14 @@ def buy_list2(request):
         'productos_yu_gi_oh': productos_yu_gi_oh,
         'productos_magic': productos_magic,
     })
+
+# Vista para eliminar un producto
+def eliminar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    if request.method == "POST":
+        producto.delete()
+        messages.success(request, f"El producto '{producto.nombre}' ha sido eliminado con éxito.")
+        return redirect('buy_list')  # Redirige a la lista de productos
+
+    return render(request, 'core/eliminar_producto.html', {'producto': producto})

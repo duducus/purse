@@ -24,6 +24,7 @@ urlpatterns = [
     path('agregar_producto/', views.agregar_producto, name='agregar_producto'),
     path('buy_list/', views.buy_list, name='buy_list'),
     path('buylist/', views.buy_list2, name='buy_list2'),
+    path('eliminar_producto/<int:producto_id>/', views.eliminar_producto, name='eliminar_producto'),
 ]
 
 if settings.DEBUG:
