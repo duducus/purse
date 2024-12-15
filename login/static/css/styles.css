@@ -113,20 +113,6 @@ label {
 .manage-form{
     align-items: center;
 }
-input,select{
-    width: 60% !important;
-    display: inline !important;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #e2e2e2;
-    color: #000000;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-}
-.form-group {
-    margin-bottom: 1rem;
-    text-align: justify;
-}
 
 .copy-button {
     border: none;
@@ -143,19 +129,29 @@ input,select{
 }
 
 input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button,
-input[type="decimal"]::-webkit-outer-spin-button,
-input[type="decimal"]::-webkit-inner-spin-button {
+input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* Ocultar flechas en Firefox */
-input[type="number"],
-input[type="decimal"] {
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
+input,select{
+    width: 60% !important;
+    display: inline !important;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e2e2e2;
+    color: #000000;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+.form-group {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
 .form-group input,
 .form-group select {
     width: 100%;
@@ -180,14 +176,14 @@ input[type="decimal"] {
     margin-right: 35px;
 }
 
-.table-bordered{
-    width: 100%; 
-    margin-left: 0px;
-}
-
 table {
     margin: 0 auto; /* Alinea la tabla al centro */
     margin-bottom: 30px;
+}
+
+.table-bordered{
+    width: 100%; 
+    margin-left: 0px;
 }
 
 .intercambios-page table,
@@ -358,6 +354,22 @@ table td form button {
     flex-direction: column;
     justify-content: space-between;
     padding: 15px;
+    position: relative;
+}
+
+.delete-button {
+    position: absolute;
+    bottom: -5px;
+    right: 0px;
+    color: red;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    color: darkred;
 }
 
 .product-card img {
@@ -377,19 +389,13 @@ table td form button {
     color: #333;
 }
 
-.container_grid{
-    display: block;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-}
-
 .card {
     box-shadow: 0 47px 127px #E3E7EB;
     margin-left: -600px;
     text-align: left;
     padding: 24px;
     width: 300px;
+    height: 500px;
 }
 
 .card_detail {
