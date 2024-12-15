@@ -8,6 +8,7 @@ from io import TextIOWrapper
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.utils.html import format_html
+from .models import Producto
 
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
@@ -93,4 +94,9 @@ class CustomUserAdmin(UserAdmin):
         extra_context['bulk_upload_url'] = 'admin/core/customuser/bulk-upload/'
         return super().changelist_view(request, extra_context=extra_context)
 
+@admin.register(Producto)
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'precio', 'tag')
+    search_fields = ('nombre', 'tag')
+    
 admin.site.register(CustomUser, CustomUserAdmin)

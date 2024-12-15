@@ -354,6 +354,22 @@ table td form button {
     flex-direction: column;
     justify-content: space-between;
     padding: 15px;
+    position: relative;
+}
+
+.delete-button {
+    position: absolute;
+    bottom: -5px;
+    right: 0px;
+    color: red;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    color: darkred;
 }
 
 .product-card img {

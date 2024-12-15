@@ -23,6 +23,7 @@
             <div class="product-grid">
                 {% for producto in productos_pokemon %}
                 <div class="product-card">
+                    <a href="{% url 'eliminar_producto' producto.id %}" class="delete-button" title="Eliminar producto">✖</a>
                     <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
                     <h4>{{ producto.nombre }}</h4>
                     <p>Precio: ${{ producto.precio }}</p>
@@ -35,6 +36,7 @@
             <div class="product-grid">
                 {% for producto in productos_yu_gi_oh %}
                 <div class="product-card">
+                    <a href="{% url 'eliminar_producto' producto.id %}" class="delete-button" title="Eliminar producto">✖</a>
                     <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
                     <h4>{{ producto.nombre }}</h4>
                     <p>Precio: ${{ producto.precio }}</p>
@@ -48,9 +50,11 @@
                 {% for producto in productos_magic %}
                 <div class="product-card">
                     <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                    <a href="{% url 'eliminar_producto' producto.id %}" class="delete-button" title="Eliminar producto">✖</a>
                     <h4>{{ producto.nombre }}</h4>
                     <p>Precio: ${{ producto.precio }}</p>
                 </div>
+                
                 {% endfor %}
             </div>
         </div>
